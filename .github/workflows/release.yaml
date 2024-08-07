@@ -27,11 +27,10 @@ jobs:
         with:
           toolchain: stable
 
-      - name: Get upload url
-        id: get_release_url
-        uses: bruceadams/get-release@v1.3.2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Prepare upload url
+        run: |
+          UPLOAD_URL="$(jq -r '.release.upload_url' "$GITHUB_EVENT_PATH" | sed -e "s/{?name,label}$/?name=${ARCHIVE_NAME}/")"
+          echo "UPLOAD_URL=${UPLOAD_URL}" >> $GITHUB_ENV
 
       - name: Build binary
         run: |
@@ -43,7 +42,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.get_release_url.outputs.upload_url }}
+          upload_url: ${{ env.UPLOAD_URL }}
           asset_path: ${{ env.ARCHIVE_NAME }}
           asset_name: ${{ env.ARCHIVE_NAME }}
           asset_content_type: application/gzip
