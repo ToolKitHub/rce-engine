@@ -7,7 +7,7 @@ let
     };
 
   pkgs =
-    import nixpkgs {};
+    import nixpkgs { };
 
   dockerRun =
     import ./default.nix { pkgs = pkgs; };
@@ -49,7 +49,7 @@ pkgs.dockerTools.buildImage {
     Cmd = [ "${dockerRun}/bin/rce-engine" ];
 
     Labels = {
-      "org.opencontainers.image.authors" = "xosnrdev";
+      "org.opencontainers.image.authors" = "Success Kingsley <hello@xosnrdev.tech>";
       "org.opencontainers.image.source" = "https://github.com/toolkithub/rce-engine";
       "org.opencontainers.image.version" = "edge";
       "org.opencontainers.image.description" = "RCE Engine service provides a http api for running untrusted code inside transient docker containers.";
