@@ -1,0 +1,7 @@
+{
+  "language": "elm",
+  "files": [{
+    "name": "Main.elm",
+    "content": "module Main exposing (main)\nimport Html exposing (..)\n\nmain =\n    text \"Hello 🌎!\""
+  }]
+}
