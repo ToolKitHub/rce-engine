@@ -14,7 +14,7 @@ pub fn handle() -> Result<api::SuccessResponse, api::ErrorResponse> {
         &ServiceInfo {
             name: "rce-engine".to_string(),
             version: VERSION.unwrap_or("unknown").to_string(),
-            description: "Api for running code in transient docker containers".to_string(),
+            description: "Api Service for running code in transient docker containers".to_string(),
         },
         api::JsonFormat::Pretty,
     )
