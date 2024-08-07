@@ -4,6 +4,8 @@ on:
   release:
     types: [created]
 
+  workflow_dispatch:
+
 env:
   APP_NAME: rce-engine
   ARCHIVE_NAME: rce-engine_linux-x64.tar.gz
