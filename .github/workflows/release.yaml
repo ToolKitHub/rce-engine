@@ -28,10 +28,10 @@ jobs:
           toolchain: stable
 
       - name: Get upload url
-        id: get_release
+        id: get_release_url
         uses: bruceadams/get-release@v1.3.2
         env:
-          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build release asset
         run: |
@@ -41,9 +41,9 @@ jobs:
       - name: Upload release asset
         uses: actions/upload-release-asset@v1.0.2
         env:
-          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.get_release.outputs.upload_url }}
+          upload_url: ${{ steps.get_release_url.outputs.upload_url }}
           asset_path: ${{ env.ARCHIVE_NAME }}
           asset_name: ${{ env.ARCHIVE_NAME }}
           asset_content_type: application/gzip
