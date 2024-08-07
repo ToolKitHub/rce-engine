@@ -25,32 +25,25 @@ jobs:
       - name: Install latest rust toolchain
         uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
-          toolchain: 1.79.0
+          toolchain: stable
 
-      - name: Get release
+      - name: Get upload url
         id: get_release
         uses: bruceadams/get-release@v1.3.2
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.event.release.tag_name || github.event.inputs.release_tag }}
-
-      - name: Set upload URL
-        run: |
-          echo "UPLOAD_URL=${{ steps.get_release.outputs.upload_url }}" >> $GITHUB_ENV
-          echo "Upload URL: ${{ steps.get_release.outputs.upload_url }}"
+          GITHUB_TOKEN: ${{ github.token }}
 
       - name: Build release asset
         run: |
-          cargo build --release
-          tar -czf $ARCHIVE_NAME -C target/release $APP_NAME
+          cargo build --release --verbose
+          tar -czf "${ARCHIVE_NAME}" -C target/release "${APP_NAME}"
 
       - name: Upload release asset
-        uses: actions/upload-release-asset@v1
+        uses: actions/upload-release-asset@v1.0.2
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
         with:
-          upload_url: ${{ env.UPLOAD_URL }}
+          upload_url: ${{ steps.get_release.outputs.upload_url }}
           asset_path: ${{ env.ARCHIVE_NAME }}
           asset_name: ${{ env.ARCHIVE_NAME }}
           asset_content_type: application/gzip
