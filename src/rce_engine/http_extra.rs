@@ -194,6 +194,7 @@ fn get_content_length(headers: &header::HeaderMap<header::HeaderValue>) -> usize
         .unwrap_or(0)
 }
 
+#[allow(dead_code)]
 enum TransferEncoding {
     NoEncoding(),
     Chunked(),
