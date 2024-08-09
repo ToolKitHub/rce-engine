@@ -21,12 +21,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up nix
-        uses: cachix/install-nix-action@v27
-        with:
-          nix_path: nixpkgs=channel:nixos-24.05
-          github_access_token: ${{ secrets.GH_TOKEN }}
-
       - name: Pull rce-images-python
         run: |
           docker pull ghcr.io/toolkithub/rce-images-python:edge
