@@ -1,5 +1,7 @@
 # RCE Engine
 
+[![Systems Nightly](https://github.com/ToolKitHub/rce-engine/actions/workflows/systems-nightly.yml/badge.svg)](https://github.com/ToolKitHub/rce-engine/actions/workflows/systems-nightly.yml)
+
 ## Overview
 
 RCE Engine is a service that provides a http api for running untrusted code inside transient docker containers.
