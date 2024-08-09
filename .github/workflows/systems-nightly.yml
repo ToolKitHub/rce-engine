@@ -1,10 +1,10 @@
 name: Systems Nightly
 
 on:
-  # push:
-  #   branches:
-  #     - main
-  #     - development
+  push:
+    branches:
+      - main
+      - development
 
   workflow_dispatch:
 
@@ -29,28 +29,41 @@ jobs:
 
       - name: Pull rce-images-python
         run: |
-          ghcr.io/toolkithub/rce-images-python:edge
+          docker pull ghcr.io/toolkithub/rce-images-python:edge
 
       - name: Setup docker environment
         run: |
           chmod +x ./run.sh
-          ./run.sh
+          ./run.sh &
+
+      - name: Wait for server to start
+        run: |
+          sleep 10
 
       - name: Run test
         run: |
-          output=$(echo '{
-            "language": "javascript",
-            "files": [{
-              "name": "main.js",
-              "content": "console.log(\"Hello World!\");"
-            }]
-          }' | docker run --rm -i --read-only --tmpfs /tmp:rw,noexec,nosuid,size=65536k --tmpfs /home/rce:rw,exec,nosuid,uid=1000,gid=1000,size=131072k -u rce -w /home/rce ghcr.io/toolkithub/rce-images-javascript:edge)
+          output=$(curl -s -X POST \
+            -H "X-Access-Token: ${{ secrets.RCE_ACCESS_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d '{"image": "ghcr.io/toolkithub/rce-images-python:edge", "payload": {"language": "python", "files": [{"name": "main.py", "content": "print(42)"}]}}' \
+            http://localhost:50051/run
+          )
 
           echo "Output: ${output}"
 
-          if [[ "${output}" == *"Hello World!"* ]]; then
+          if [[ "${output}" == *"42"* ]]; then
             echo "Test passed."
           else
             echo "Test failed."
             exit 1
+          fi
+
+      - name: Shutdown server gracefully
+        run: |
+          pid=$(lsof -t -i:50051)
+          if [[ -n "${pid}" ]]; then
+            kill -TERM "${pid}"
+            echo "Server shutdown gracefully."
+          else
+            echo "No server running on port 50051."
           fi
