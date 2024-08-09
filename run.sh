@@ -6,7 +6,7 @@ export SERVER_WORKER_THREADS="10"
 
 export API_ACCESS_TOKEN="infernal-craftsman-validate-trove"
 
-export DOCKER_UNIX_SOCKET_PATH="/Users/pii/Library/Containers/com.docker.docker/Data/docker.raw.sock"
+export DOCKER_UNIX_SOCKET_PATH="/var/run/docker.sock"
 export DOCKER_UNIX_SOCKET_READ_TIMEOUT="3"
 export DOCKER_UNIX_SOCKET_WRITE_TIMEOUT="3"
 

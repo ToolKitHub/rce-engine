@@ -1,0 +1,56 @@
+name: Systems Nightly
+
+on:
+  # push:
+  #   branches:
+  #     - main
+  #     - development
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up nix
+        uses: cachix/install-nix-action@v27
+        with:
+          nix_path: nixpkgs=channel:nixos-24.05
+          github_access_token: ${{ secrets.GH_TOKEN }}
+
+      - name: Pull rce-images-python
+        run: |
+          ghcr.io/toolkithub/rce-images-python:edge
+
+      - name: Setup docker environment
+        run: |
+          chmod +x ./run.sh
+          ./run.sh
+
+      - name: Run test
+        run: |
+          output=$(echo '{
+            "language": "javascript",
+            "files": [{
+              "name": "main.js",
+              "content": "console.log(\"Hello World!\");"
+            }]
+          }' | docker run --rm -i --read-only --tmpfs /tmp:rw,noexec,nosuid,size=65536k --tmpfs /home/rce:rw,exec,nosuid,uid=1000,gid=1000,size=131072k -u rce -w /home/rce ghcr.io/toolkithub/rce-images-javascript:edge)
+
+          echo "Output: ${output}"
+
+          if [[ "${output}" == *"Hello World!"* ]]; then
+            echo "Test passed."
+          else
+            echo "Test failed."
+            exit 1
+          fi
