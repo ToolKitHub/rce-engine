@@ -1,11 +1,11 @@
 { config, lib, pkgs, ... }:
 
 let
-  dockerRun =
+  rce-engine =
     import ./default.nix { pkgs = pkgs; };
 
   cfg =
-    config.services.dockerRun;
+    config.services.rce-engine;
 
   commonEnvironment = {
     LC_ALL = "en_US.UTF-8";
@@ -14,7 +14,7 @@ let
 in
 {
   options = {
-    services.dockerRun = {
+    services.rce-engine = {
       enable = lib.mkOption {
         type = lib.types.bool;
         default = false;
@@ -48,7 +48,7 @@ in
 
       serviceConfig =
         {
-          ExecStart = "${dockerRun}/bin/rce-engine";
+          ExecStart = "${rce-engine}/bin/rce-engine";
           Restart = "always";
           User = "rce";
         };
