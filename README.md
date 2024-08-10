@@ -1,6 +1,6 @@
 # RCE Engine
 
-[![Systems Nightly](https://github.com/ToolKitHub/rce-engine/actions/workflows/systems-nightly.yml/badge.svg)](https://github.com/ToolKitHub/rce-engine/actions/workflows/systems-nightly.yml)
+[![Build Test](https://github.com/ToolKitHub/rce-engine/actions/workflows/test.yml/badge.svg)](https://github.com/ToolKitHub/rce-engine/actions/workflows/test.yml)
 
 ## Overview
 
@@ -61,7 +61,13 @@ Depending on your use-case you should also consider to:
 - Drop [capabilities](https://man7.org/linux/man-pages/man7/capabilities.7.html) using `DOCKER_CONTAINER_CAP_DROP`
 - Use the [gVisor](https://gvisor.dev/) runtime
 
-## Installation instructions
+## Installation with `CLI` (Recommended)
+
+```bash
+    curl -fsSL https://raw.githubusercontent.com/ToolKitHub/rce-engine/main/install.sh | bash
+```
+
+For more control over the installation and configuration:
 
 - [Run rce-engine with systemd](docs/install/ubuntu-22.04.md) (recommended)
 - [Run rce-engine in a docker container](docs/install/docker-ubuntu-22.04.md) (some people run into issues while running rce-engine in a container, see open issues)

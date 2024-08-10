@@ -1,4 +1,4 @@
-name: Systems Nightly
+name: Build Test
 
 on:
   push:
