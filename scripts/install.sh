@@ -6,7 +6,7 @@
 # Version: 1.2.0
 # License: MIT
 # Description: This script installs the rce-engine on an Ubuntu 22.04 or latest machine.
-# Usage: curl -fsSL https://raw.githubusercontent.com/toolkithub/rce-engine/main/scripts/install.sh | sudo bash
+# Usage: curl -fsSL https://raw.githubusercontent.com/toolkithub/rce-engine/main/scripts/install.sh | bash
 #+---------------------------------------------------------------------------------------------------------------+
 
 set -e
