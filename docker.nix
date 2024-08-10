@@ -9,7 +9,7 @@ let
   pkgs =
     import nixpkgs { };
 
-  dockerRun =
+  rce-engine =
     import ./default.nix { pkgs = pkgs; };
 in
 pkgs.dockerTools.buildImage {
@@ -46,13 +46,13 @@ pkgs.dockerTools.buildImage {
       "RUST_LOG=debug"
     ];
 
-    Cmd = [ "${dockerRun}/bin/rce-engine" ];
+    Cmd = [ "${rce-engine}/bin/rce-engine" ];
 
     Labels = {
       "org.opencontainers.image.authors" = "Success Kingsley <hello@xosnrdev.tech>";
       "org.opencontainers.image.source" = "https://github.com/toolkithub/rce-engine";
       "org.opencontainers.image.version" = "edge";
-      "org.opencontainers.image.description" = "RCE Engine service provides a http api for running untrusted code inside transient docker containers.";
+      "org.opencontainers.image.description" = "RCE Engine service that provides a http api for running untrusted code inside transient docker containers.";
     };
   };
 }
