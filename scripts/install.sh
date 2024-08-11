@@ -3,7 +3,7 @@
 #+---------------------------------------------------------------------------------------------------------------+
 # Author: Success Kingsley <hello@xosnrdev.tech>
 # Last Updated: 2024-08-09
-# Version: 1.2.0
+# Version: 1.2.1
 # License: MIT
 # Description: This script installs the rce-engine on an Ubuntu 22.04 or latest machine.
 # Usage: curl -fsSL https://raw.githubusercontent.com/toolkithub/rce-engine/main/scripts/install.sh | bash
@@ -13,12 +13,12 @@ set -e
 
 # Function to log messages
 log() {
-    echo -e "\033[1;34m[INFO]\033[0m $1"
+	echo -e "\033[1;34m[INFO]\033[0m $1"
 }
 
 # Function to log errors
 error() {
-    echo -e "\033[1;31m[ERROR]\033[0m $1" >&2
+	echo -e "\033[1;31m[ERROR]\033[0m $1" >&2
 }
 
 # Update package list
@@ -29,10 +29,10 @@ sudo apt update
 pkgs=("curl" "docker.io" "runsc" "apt-transport-https" "ca-certificates" "gnupg-agent" "software-properties-common")
 
 for pkg in "${pkgs[@]}"; do
-    if ! dpkg -l | grep -q "^ii  ${pkg}"; then
-        log "Installing ${pkg}..."
-        sudo apt-get install -y ${pkg} || error "Failed to install ${pkg}"
-    fi
+	if ! dpkg -l | grep -q "^ii  ${pkg}"; then
+		log "Installing ${pkg}..."
+		sudo apt-get install -y ${pkg} || error "Failed to install ${pkg}"
+	fi
 done
 
 # Install gVisor
@@ -74,7 +74,7 @@ sudo mkdir -p /home/rce/bin
 cd /home/rce/bin
 
 log "Downloading rce-engine binary..."
-curl -LO https://github.com/toolkithub/rce-engine/releases/download/v1.2.0/rce-engine_linux-x64.tar.gz || error "Failed to download rce-engine binary"
+curl -LO https://github.com/toolkithub/rce-engine/releases/download/v1.2.1/rce-engine_linux-x64.tar.gz || error "Failed to download rce-engine binary"
 
 log "Extracting rce-engine binary..."
 sudo tar -zxf rce-engine_linux-x64.tar.gz || error "Failed to extract rce-engine binary"
@@ -100,83 +100,83 @@ sudo systemctl start rce-engine.service || error "Failed to start rce-engine ser
 # This phase of the script installs the rce-images for supported languages interactively.
 # see https://github.com/toolkithub/rce-images
 languages=(
-    "Assembly" "Ats" "Bash" "C" "Clojure" "Cobol" "CoffeeScript" "Cpp"
-    "Crystal" "Csharp" "D" "Elixir" "Elm" "Erlang" "Fsharp" "Go"
-    "Groovy" "Haskell" "Idris" "Java" "JavaScript" "Julia" "Kotlin"
-    "Lua" "Mercury" "Nim" "Ocaml" "Perl" "Php" "Python" "Raku"
-    "Ruby" "Rust" "SaC" "Scala" "Swift" "TypeScript"
+	"Assembly" "Ats" "Bash" "C" "Clojure" "Cobol" "CoffeeScript" "Cpp"
+	"Crystal" "Csharp" "D" "Elixir" "Elm" "Erlang" "Fsharp" "Go"
+	"Groovy" "Haskell" "Idris" "Java" "JavaScript" "Julia" "Kotlin"
+	"Lua" "Mercury" "Nim" "Ocaml" "Perl" "Php" "Python" "Raku"
+	"Ruby" "Rust" "SaC" "Scala" "Swift" "TypeScript"
 )
 
 # Display supported languages
 display_supported_languages() {
-    echo -e "\n\033[1;34mSupported Languages (select by number):\033[0m"
-    for i in "${!languages[@]}"; do
-        printf "\033[1;32m%2d.\033[0m \033[1;37m%-15s\033[0m" $((i+1)) "${languages[${i}]}"
-        if (( (i + 1) % 6 == 0 )); then
-            echo
-        fi
-    done
-    echo -e "\n"
+	echo -e "\n\033[1;34mSupported Languages (select by number):\033[0m"
+	for i in "${!languages[@]}"; do
+		printf "\033[1;32m%2d.\033[0m \033[1;37m%-15s\033[0m" $((i + 1)) "${languages[${i}]}"
+		if (((i + 1) % 6 == 0)); then
+			echo
+		fi
+	done
+	echo -e "\n"
 }
 
 # Convert string to lowercase
 convert_to_lowercase() {
-    echo "${1}" | tr '[:upper:]' '[:lower:]'
+	echo "${1}" | tr '[:upper:]' '[:lower:]'
 }
 
 # Trim whitespace from a string
 trim_whitespace() {
-    echo "${1}" | tr -d '[:space:]'
+	echo "${1}" | tr -d '[:space:]'
 }
 
 # Pull Docker image for the given language
 pull_language_image() {
-    local language=$1
-    log "Pulling image for ${language}..."
-    if ! docker pull ghcr.io/toolkithub/rce-images-$(convert_to_lowercase "${language}"):edge; then
-        error "Failed to pull image for ${language}"
-        return 1
-    fi
+	local language=$1
+	log "Pulling image for ${language}..."
+	if ! docker pull ghcr.io/toolkithub/rce-images-$(convert_to_lowercase "${language}"):edge; then
+		error "Failed to pull image for ${language}"
+		return 1
+	fi
 }
 
 # Main function
 main() {
-    display_supported_languages
+	display_supported_languages
 
-    # Prompt user input
-    read -p "Enter the number corresponding to the language(s) you'd like to install (comma-separated), or press Enter to install all: " language_input
-    language_input=$(trim_whitespace "${language_input}")
+	# Prompt user input
+	read -p "Enter the number corresponding to the language(s) you'd like to install (comma-separated), or press Enter to install all: " language_input
+	language_input=$(trim_whitespace "${language_input}")
 
-    is_valid_input=true
-    if [ -z "${language_input}" ]; then
-        for language in "${languages[@]}"; do
-            pull_language_image "${language}" &
-        done
-        wait
-    else
-        IFS=',' read -r -a indices <<< "${language_input}"
-        is_valid_input=true
+	is_valid_input=true
+	if [ -z "${language_input}" ]; then
+		for language in "${languages[@]}"; do
+			pull_language_image "${language}" &
+		done
+		wait
+	else
+		IFS=',' read -r -a indices <<<"${language_input}"
+		is_valid_input=true
 
-        for index in "${indices[@]}"; do
-            if ! [[ ${index} =~ ^[0-9]+$ ]] || (( index < 1 || index > ${#languages[@]} )); then
-                error "Unsupported language index: ${index}"
-                is_valid_input=false
-                break
-            fi
-        done
+		for index in "${indices[@]}"; do
+			if ! [[ ${index} =~ ^[0-9]+$ ]] || ((index < 1 || index > ${#languages[@]})); then
+				error "Unsupported language index: ${index}"
+				is_valid_input=false
+				break
+			fi
+		done
 
-        if [ "${is_valid_input}" = true ]; then
-            for index in "${indices[@]}"; do
-                language="${languages[$((index-1))]}"
-                pull_language_image "${language}" &
-            done
-            wait
-            log "Successfully pulled images for selected languages."
-        else
-            error "Invalid input. Please enter a valid number or a comma-separated list of numbers."
-            main
-        fi
-    fi
+		if [ "${is_valid_input}" = true ]; then
+			for index in "${indices[@]}"; do
+				language="${languages[$((index - 1))]}"
+				pull_language_image "${language}" &
+			done
+			wait
+			log "Successfully pulled images for selected languages."
+		else
+			error "Invalid input. Please enter a valid number or a comma-separated list of numbers."
+			main
+		fi
+	fi
 }
 
 main
