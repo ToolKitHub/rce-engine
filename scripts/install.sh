@@ -1,13 +1,14 @@
 #!/bin/bash
 
-#+---------------------------------------------------------------------------------------------------------------+
+#+-------------------------------------------------------------------------------------------------------------------------------------+
 # Author: Success Kingsley <hello@xosnrdev.tech>
 # Last Updated: 2024-08-11
 # Version: 1.2.1
 # License: MIT
 # Description: This script installs the rce-engine on an Ubuntu 22.04 or latest machine.
-# Usage: curl -fsSL https://raw.githubusercontent.com/toolkithub/rce-engine/main/scripts/install.sh | bash
-#+---------------------------------------------------------------------------------------------------------------+
+# Usage: curl -fsSL https://raw.githubusercontent.com/toolkithub/rce-engine/main/scripts/install.sh -o install.sh \
+# sudo bash ./install.sh
+#+-------------------------------------------------------------------------------------------------------------------------------------+
 
 set -e
 
@@ -103,21 +104,20 @@ languages=(
 	"Assembly"
 	"Ats"
 	"Bash"
-	"C"
+	"Clang"
 	"Clisp"
 	"Clojure"
 	"Cobol"
 	"CoffeeScript"
-	"Cpp"
 	"Crystal"
 	"Csharp"
-	"D"
+	"Dlang"
 	"Dart"
 	"Elixir"
 	"Elm"
 	"Erlang"
 	"Fsharp"
-	"Go"
+	"Golang"
 	"Groovy"
 	"Guile"
 	"Hare"
