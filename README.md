@@ -61,7 +61,8 @@ Depending on your use-case you should also consider to:
 ## Installation with `CLI` (Recommended)
 
 ```bash
-    curl -fsSL https://raw.githubusercontent.com/ToolKitHub/rce-engine/main/install.sh | bash
+    curl -fsSL https://raw.githubusercontent.com/toolkithub/rce-engine/main/scripts/install.sh -o install.sh
+    sudo bash ./install.sh
 ```
 
 For more control over the installation and configuration:
