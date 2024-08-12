@@ -2,7 +2,7 @@
 
 #+---------------------------------------------------------------------------------------------------------------+
 # Author: Success Kingsley <hello@xosnrdev.tech>
-# Last Updated: 2024-08-09
+# Last Updated: 2024-08-11
 # Version: 1.2.1
 # License: MIT
 # Description: This script installs the rce-engine on an Ubuntu 22.04 or latest machine.
@@ -26,12 +26,12 @@ log "Updating package list..."
 sudo apt update
 
 # Check for essential packages needed for the installation like curl, docker, etc. If they are not installed, install them.
-pkgs=("curl" "docker.io" "runsc" "apt-transport-https" "ca-certificates" "gnupg-agent" "software-properties-common")
+pkgs=("docker.io" "runsc" "apt-transport-https" "ca-certificates" "gnupg-agent" "software-properties-common")
 
 for pkg in "${pkgs[@]}"; do
 	if ! dpkg -l | grep -q "^ii  ${pkg}"; then
 		log "Installing ${pkg}..."
-		sudo apt-get install -y ${pkg} || error "Failed to install ${pkg}"
+		sudo apt-get install -y "${pkg}" || error "Failed to install ${pkg}"
 	fi
 done
 
@@ -86,7 +86,7 @@ log "Configuring rce-engine systemd service..."
 curl -o /etc/systemd/system/rce-engine.service https://raw.githubusercontent.com/toolkithub/rce-engine/main/systemd/rce-engine.service || error "Failed to download rce-engine systemd service file"
 
 # Prompt user to set the API access token
-read -p "Enter an API access token you'd like to use for rce-engine X-Access-Token Header: " api_access_token
+read -r -p "Enter an API access token you'd like to use for rce-engine X-Access-Token Header: " api_access_token
 
 # Update rce-engine.service with the API access token
 sudo sed -i "s/Environment=\"API_ACCESS_TOKEN=some-secret-token\"/Environment=\"API_ACCESS_TOKEN=${api_access_token}\"/" /etc/systemd/system/rce-engine.service || error "Failed to update rce-engine.service with API access token"
@@ -100,11 +100,50 @@ sudo systemctl start rce-engine.service || error "Failed to start rce-engine ser
 # This phase of the script installs the rce-images for supported languages interactively.
 # see https://github.com/toolkithub/rce-images
 languages=(
-	"Assembly" "Ats" "Bash" "C" "Clojure" "Cobol" "CoffeeScript" "Cpp"
-	"Crystal" "Csharp" "D" "Elixir" "Elm" "Erlang" "Fsharp" "Go"
-	"Groovy" "Haskell" "Idris" "Java" "JavaScript" "Julia" "Kotlin"
-	"Lua" "Mercury" "Nim" "Ocaml" "Perl" "Php" "Python" "Raku"
-	"Ruby" "Rust" "SaC" "Scala" "Swift" "TypeScript"
+	"Assembly"
+	"Ats"
+	"Bash"
+	"C"
+	"Clisp"
+	"Clojure"
+	"Cobol"
+	"CoffeeScript"
+	"Cpp"
+	"Crystal"
+	"Csharp"
+	"D"
+	"Dart"
+	"Elixir"
+	"Elm"
+	"Erlang"
+	"Fsharp"
+	"Go"
+	"Groovy"
+	"Guile"
+	"Hare"
+	"Haskell"
+	"Idris"
+	"Java"
+	"JavaScript"
+	"Julia"
+	"Kotlin"
+	"Lua"
+	"Mercury"
+	"Nim"
+	"Nix"
+	"Ocaml"
+	"Pascal"
+	"Perl"
+	"Php"
+	"Python"
+	"Raku"
+	"Ruby"
+	"Rust"
+	"SaC"
+	"Scala"
+	"Swift"
+	"TypeScript"
+	"Zig"
 )
 
 # Display supported languages
@@ -144,11 +183,11 @@ main() {
 	display_supported_languages
 
 	# Prompt user input
-	read -p "Enter the number corresponding to the language(s) you'd like to install (comma-separated), or press Enter to install all: " language_input
+	read -r -p "Enter the number corresponding to the language(s) you'd like to install (comma-separated), or press Enter to install all: " language_input
 	language_input=$(trim_whitespace "${language_input}")
 
 	is_valid_input=true
-	if [ -z "${language_input}" ]; then
+	if [[ -z ${language_input} ]]; then
 		for language in "${languages[@]}"; do
 			pull_language_image "${language}" &
 		done
@@ -165,7 +204,7 @@ main() {
 			fi
 		done
 
-		if [ "${is_valid_input}" = true ]; then
+		if [[ ${is_valid_input} == true ]]; then
 			for index in "${indices[@]}"; do
 				language="${languages[$((index - 1))]}"
 				pull_language_image "${language}" &
