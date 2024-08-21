@@ -1,6 +1,8 @@
-# RCE Engine
+# rce-engine
 
 [![Build Test](https://github.com/ToolKitHub/rce-engine/actions/workflows/test.yml/badge.svg)](https://github.com/ToolKitHub/rce-engine/actions/workflows/test.yml)
+
+> An engine for running untrusted code inside transient docker containers.
 
 This service provides a http api for running untrusted code inside transient docker containers.
 For every run request a new container is started and deleted.
@@ -20,7 +22,7 @@ The communication with the docker daemon happens via it's api over the unix sock
 When a run request is posted to rce-engine it will create a new temporary container.
 The container is required to listen for a json payload on stdin and must write the
 run result to stdout as a json object containing the properties: stdout, stderr and error.
-The docker images used [here](https://github.com/orgs/ToolKitHub/packages).
+The docker images used [here](https://hub.docker.com/u/toolkithub).
 
 ## Performance
 
@@ -58,14 +60,18 @@ Depending on your use-case you should also consider to:
 - Drop [capabilities](https://man7.org/linux/man-pages/man7/capabilities.7.html) using `DOCKER_CONTAINER_CAP_DROP`
 - Use the [gVisor](https://gvisor.dev/) runtime
 
-## Installation with `CLI` (Recommended)
+## How to install
+
+With CLI:
+
+> The following command will install rce-engine on a fresh Ubuntu 22.04 machine or latest.
 
 ```bash
     curl -fsSL https://raw.githubusercontent.com/toolkithub/rce-engine/main/scripts/install.sh -o install.sh
     sudo bash ./install.sh
 ```
 
-For more control over the installation and configuration:
+Manual installation:
 
 - [Run rce-engine with systemd](docs/install/ubuntu-22.04.md) (recommended)
 - [Run rce-engine in a docker container](docs/install/docker-ubuntu-22.04.md) (some people run into issues while running rce-engine in a container, see open issues)

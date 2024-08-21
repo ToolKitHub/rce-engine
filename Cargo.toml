@@ -1,6 +1,6 @@
 [package]
 name = "rce-engine"
-version = "1.2.1"
+version = "1.2.2"
 authors = ["Success Kingsley <hello@xosnrdev.tech>"]
 edition = "2021"
 
