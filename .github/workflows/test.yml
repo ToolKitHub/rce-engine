@@ -23,7 +23,7 @@ jobs:
 
       - name: Pull rce-images-python
         run: |
-          docker pull ghcr.io/toolkithub/rce-images-python:edge
+          docker pull toolkithub/python:edge
 
       - name: Setup docker environment
         run: |
@@ -39,7 +39,7 @@ jobs:
           output=$(curl -s -X POST \
             -H "X-Access-Token: ${{ secrets.RCE_ACCESS_TOKEN }}" \
             -H "Content-Type: application/json" \
-            -d '{"image": "ghcr.io/toolkithub/rce-images-python:edge", "payload": {"language": "python", "files": [{"name": "main.py", "content": "print(42)"}]}}' \
+            -d '{"image": "toolkithub/python:edge", "payload": {"language": "python", "files": [{"name": "main.py", "content": "print(42)"}]}}' \
             http://localhost:50051/run
           )
 
