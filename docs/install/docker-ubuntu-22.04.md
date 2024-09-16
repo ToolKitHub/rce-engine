@@ -26,8 +26,8 @@ docker pull ghcr/toolkithub/rce-engine:edge
 #### Pull rce-images for the languages you want
 
 ```bash
-docker pull ghcr/toolkithub/rce-images-python:edge
-docker pull ghcr/toolkithub/rce-images-rust:edge
+docker pull toolkithub/python:edge
+docker pull toolkithub/rust:edge
 # ...
 ```
 

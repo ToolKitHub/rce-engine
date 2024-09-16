@@ -15,7 +15,7 @@ The communication with the docker daemon happens via it's api over the unix sock
 | :-------------------------- | :----- | :------- | :------------- |
 | Get service info            | GET    | /        | No             |
 | Get docker info             | GET    | /version | Yes            |
-| [Run code](api_docs/run.md) | POST   | /run     | Yes            |
+| [Run code](docs/api/run.md) | POST   | /run     | Yes            |
 
 ## Docker images
 
