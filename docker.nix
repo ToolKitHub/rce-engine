@@ -52,7 +52,7 @@ pkgs.dockerTools.buildImage {
       "org.opencontainers.image.authors" = "Success Kingsley <hello@xosnrdev.tech>";
       "org.opencontainers.image.source" = "https://github.com/toolkithub/rce-engine";
       "org.opencontainers.image.version" = "edge";
-      "org.opencontainers.image.description" = "RCE Engine service that provides a http api for running untrusted code inside transient docker containers.";
+      "org.opencontainers.image.description" = "A service that provides http api for running untrusted code inside transient docker containers.";
     };
   };
 }
