@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 #+-------------------------------------------------------------------------------------------------------------------------------------+
 # Author: Success Kingsley <hello@xosnrdev.tech>
-# Last Updated: 2024-08-20
+# Last Updated: 2024-09-16
 # Version: 1.2.2
 # License: MIT
 # Description: This script installs the rce-engine on an Ubuntu 22.04 or latest machine.
