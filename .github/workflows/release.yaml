@@ -1,4 +1,4 @@
-name: Build and upload release
+name: Main Release
 
 on:
   release:
@@ -38,11 +38,10 @@ jobs:
           tar -czf "${ARCHIVE_NAME}" -C target/release "${APP_NAME}"
 
       - name: Upload binary
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        uses: shogo82148/actions-upload-release-asset@v1
         with:
           upload_url: ${{ env.UPLOAD_URL }}
           asset_path: ${{ env.ARCHIVE_NAME }}
           asset_name: ${{ env.ARCHIVE_NAME }}
           asset_content_type: application/gzip
+          github_token: ${{ secrets.GH_TOKEN }}
