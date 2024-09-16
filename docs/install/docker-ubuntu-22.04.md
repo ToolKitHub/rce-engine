@@ -20,7 +20,7 @@ systemctl restart docker.service
 #### Pull the rce-engine image
 
 ```bash
-docker pull ghcr/toolkithub/rce-engine:edge
+docker pull toolkithub/rce-engine:edge
 ```
 
 #### Pull rce-images for the languages you want
