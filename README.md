@@ -4,7 +4,7 @@
 
 > An engine for running untrusted code inside transient docker containers.
 
-This service provides a http api for running untrusted code inside transient docker containers.
+This service provides http api for running untrusted code inside transient docker containers.
 For every run request a new container is started and deleted.
 The payload is passed to the container by attaching to it and writing it to stdin. The result is read from stdout.
 The communication with the docker daemon happens via it's api over the unix socket.
