@@ -34,7 +34,7 @@ docker pull toolkithub/rust:edge
 #### Start the rce-engine container
 
 ```bash
-docker run --detach --restart=always --publish 50051:50051 --volume /var/run/docker.sock:/var/run/docker.sock --env "API_ACCESS_TOKEN=my-token" rce-engine:edge
+docker run --detach --restart=always --publish 50051:50051 --volume /var/run/docker.sock:/var/run/docker.sock --env "API_ACCESS_TOKEN=my-token" toolkithub/rce-engine:edge
 ```
 
 #### Check that everything is working
