@@ -28,7 +28,7 @@ usermod -aG docker rce
 ```bash
 mkdir /home/rce/bin
 cd /home/rce/bin
-wget https://github.com/toolkithub/rce-engine/releases/download/v.1.2.2/rce-engine_linux-x64.tar.gz
+wget https://github.com/toolkithub/rce-engine/releases/download/v.1.2.3/rce-engine_linux-x64.tar.gz
 tar -zxf rce-engine_linux-x64.tar.gz
 rm rce-engine_linux-x64.tar.gz
 chown -R rce:rce /home/rce/bin
