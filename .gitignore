@@ -1,6 +1,3 @@
 /target
-test.sh
-notes.txt
-src/tiny-http
 result
-docker-image
+.trunk

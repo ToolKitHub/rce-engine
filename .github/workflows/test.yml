@@ -27,8 +27,8 @@ jobs:
 
       - name: Setup docker environment
         run: |
-          chmod +x ./run.sh
-          ./run.sh &
+          chmod +x ./scripts/run.sh
+          ./scripts/run.sh &
 
       - name: Wait for server to start
         run: |
