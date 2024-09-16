@@ -13,7 +13,7 @@ let
     import ./default.nix { pkgs = pkgs; };
 in
 pkgs.dockerTools.buildImage {
-  name = "ghcr.io/toolkithub/rce-engine";
+  name = "toolkithub/rce-engine";
   tag = "edge";
   created = "now";
 
