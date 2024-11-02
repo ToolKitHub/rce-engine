@@ -3,7 +3,7 @@
 #+-------------------------------------------------------------------------------------------------------------------------------------+
 # Author: Success Kingsley <hello@xosnrdev.tech>
 # Last Updated: 2024-09-16
-# Version: 1.2.3
+# Version: 1.2.4
 # License: MIT
 # Description: This script installs the rce-engine on an Ubuntu 22.04 or latest machine.
 # Usage: curl -fsSL https://raw.githubusercontent.com/toolkithub/rce-engine/main/scripts/install.sh -o install.sh \
@@ -75,7 +75,7 @@ sudo mkdir -p /home/rce/bin
 cd /home/rce/bin
 
 log "Downloading rce-engine binary..."
-curl -LO https://github.com/toolkithub/rce-engine/releases/download/v1.2.3/rce-engine_linux-x64.tar.gz || error "Failed to download rce-engine binary"
+curl -LO https://github.com/toolkithub/rce-engine/releases/download/v1.2.4/rce-engine_linux-x64.tar.gz || error "Failed to download rce-engine binary"
 
 log "Extracting rce-engine binary..."
 sudo tar -zxf rce-engine_linux-x64.tar.gz || error "Failed to extract rce-engine binary"
