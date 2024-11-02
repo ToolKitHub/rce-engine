@@ -7,7 +7,6 @@ on:
 
 env:
   APP_NAME: rce-engine
-  DOCKER_IMAGE: toolkithub/rce-engine:edge
   ARCHIVE_NAME: rce-engine_linux-x64.tar.gz
 
 permissions:
@@ -39,23 +38,3 @@ jobs:
           asset_name: ${{ env.ARCHIVE_NAME }}
           asset_content_type: application/gzip
           github_token: ${{ secrets.GH_TOKEN }}
-
-      - name: Setup Nix and Build Docker Image
-        uses: cachix/install-nix-action@v27
-        with:
-          nix_path: nixpkgs=channel:nixos-24.05
-          github_access_token: ${{ secrets.GH_TOKEN }}
-
-      - name: Build and Load Docker Image
-        run: |
-          nix-build -o result/rce-engine docker.nix
-          docker load -i result/rce-engine
-
-      - name: Push to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-
-      - name: Push Image
-        run: docker push ${{ env.DOCKER_IMAGE }}
