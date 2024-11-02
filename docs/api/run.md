@@ -2,7 +2,7 @@
 
 ## Run code
 
-#### Request
+### Request
 
 ```bash
 curl --request POST \
@@ -12,7 +12,7 @@ curl --request POST \
      --url 'http://<rce-engine>/run'
 ```
 
-#### Response
+### Response
 
 ```json
 {
@@ -24,7 +24,7 @@ curl --request POST \
 
 ## Read data from stdin
 
-#### Request
+### Request
 
 ```bash
 curl --request POST \
@@ -34,7 +34,7 @@ curl --request POST \
      --url 'http://<rce-engine>/run'
 ```
 
-#### Response
+### Response
 
 ```json
 {
@@ -46,7 +46,7 @@ curl --request POST \
 
 ## Custom run command
 
-#### Request
+### Request
 
 ```bash
 curl --request POST \
@@ -56,7 +56,7 @@ curl --request POST \
      --url 'http://<rce-engine>/run'
 ```
 
-#### Response
+### Response
 
 ```json
 {

@@ -1,63 +1,47 @@
-name: Build Test
+name: Main Test
 
 on:
   push:
-    branches:
-      - main
-      - development
-
+    branches: [main]
   workflow_dispatch:
 
 permissions:
   contents: read
-  packages: write
 
 jobs:
-  test:
-    name: Test
+  smoke-test:
     runs-on: ubuntu-latest
+    env:
+      PORT: 50051
+      TEST_IMAGE: toolkithub/python:edge
+      TEST_PAYLOAD: '{"image":"toolkithub/python:edge","payload":{"language":"python","files":[{"name":"main.py","content":"print(42)"}]}}'
+      EXPECTED_OUTPUT: "42"
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Pull rce-images-python
+      - name: Setup Test Environment
         run: |
-          docker pull toolkithub/python:edge
-
-      - name: Setup docker environment
-        run: |
+          docker pull ${{ env.TEST_IMAGE }}
           chmod +x ./scripts/run.sh
           ./scripts/run.sh &
-
-      - name: Wait for server to start
-        run: |
           sleep 60
 
-      - name: Run test
+      - name: Run Smoke Test
         run: |
-          output=$(curl -s -X POST \
-            -H "X-Access-Token: ${{ secrets.RCE_ACCESS_TOKEN }}" \
+          response=$(curl -s -X POST \
+            -H "X-Access-Token: ${{ secrets.API_ACCESS_TOKEN }}" \
             -H "Content-Type: application/json" \
-            -d '{"image": "toolkithub/python:edge", "payload": {"language": "python", "files": [{"name": "main.py", "content": "print(42)"}]}}' \
-            http://localhost:50051/run
-          )
+            -d '${{ env.TEST_PAYLOAD }}' \
+            http://localhost:${{ env.PORT }}/run)
 
-          echo "Output: ${output}"
+          echo "${response}"
+          [[ "${response}" == *"${{ env.EXPECTED_OUTPUT }}"* ]] || exit 1
 
-          if [[ "${output}" == *"42"* ]]; then
-            echo "Test passed."
-          else
-            echo "Test failed."
-            exit 1
-          fi
-
-      - name: Shutdown server gracefully
+      - name: Cleanup
+        if: always()
         run: |
-          pid=$(lsof -t -i:50051)
-          if [[ -n "${pid}" ]]; then
+          if pid=$(lsof -t -i:${{ env.PORT }}); then
             kill -TERM "${pid}"
-            echo "Server shutdown gracefully."
-          else
-            echo "No server running on port 50051."
+            echo "Server stopped"
           fi

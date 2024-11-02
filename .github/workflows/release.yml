@@ -3,11 +3,11 @@ name: Main Release
 on:
   release:
     types: [created]
-
   workflow_dispatch:
 
 env:
   APP_NAME: rce-engine
+  DOCKER_IMAGE: toolkithub/rce-engine:edge
   ARCHIVE_NAME: rce-engine_linux-x64.tar.gz
 
 permissions:
@@ -15,29 +15,23 @@ permissions:
   packages: write
 
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Install latest rust toolchain
+      - name: Setup Rust
         uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           toolchain: stable
 
-      - name: Prepare upload url
-        run: |
-          UPLOAD_URL="$(jq -r '.release.upload_url' "$GITHUB_EVENT_PATH" | sed -e "s/{?name,label}$/?name=${ARCHIVE_NAME}/")"
-          echo "UPLOAD_URL=${UPLOAD_URL}" >> $GITHUB_ENV
-
-      - name: Build binary
+      - name: Build and Package Binary
         run: |
           cargo build --release
           tar -czf "${ARCHIVE_NAME}" -C target/release "${APP_NAME}"
+          echo "UPLOAD_URL=$(jq -r '.release.upload_url' "$GITHUB_EVENT_PATH" | sed -e "s/{?name,label}$/?name=${ARCHIVE_NAME}/")" >> $GITHUB_ENV
 
-      - name: Upload binary
+      - name: Upload Release Asset
         uses: shogo82148/actions-upload-release-asset@v1
         with:
           upload_url: ${{ env.UPLOAD_URL }}
@@ -46,35 +40,22 @@ jobs:
           asset_content_type: application/gzip
           github_token: ${{ secrets.GH_TOKEN }}
 
-  post-build:
-    name: Post Build
-    runs-on: ubuntu-latest
-    needs: build
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up nix
+      - name: Setup Nix and Build Docker Image
         uses: cachix/install-nix-action@v27
         with:
           nix_path: nixpkgs=channel:nixos-24.05
           github_access_token: ${{ secrets.GH_TOKEN }}
 
-      - name: Nix build
+      - name: Build and Load Docker Image
         run: |
           nix-build -o result/rce-engine docker.nix
-
-      - name: Load image
-        run: |
           docker load -i result/rce-engine
 
-      - name: Login to Docker Hub
+      - name: Push to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
-      - name: Push image
-        run: |
-          docker push toolkithub/rce-engine:edge
+      - name: Push Image
+        run: docker push ${{ env.DOCKER_IMAGE }}

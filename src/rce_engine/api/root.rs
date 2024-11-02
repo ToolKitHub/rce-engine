@@ -4,18 +4,17 @@ const VERSION: Option<&'static str> = option_env!("CARGO_PKG_VERSION");
 
 #[derive(Debug, serde::Serialize)]
 struct ServiceInfo {
-    name: String,
-    version: String,
-    description: String,
+    name: &'static str,
+    version: &'static str,
+    description: &'static str,
 }
 
 pub fn handle() -> Result<api::SuccessResponse, api::ErrorResponse> {
-    api::prepare_json_response(
-        &ServiceInfo {
-            name: "rce-engine".to_string(),
-            version: VERSION.unwrap_or("unknown").to_string(),
-            description: "Api Service for running code in transient docker containers".to_string(),
-        },
-        api::JsonFormat::Pretty,
-    )
+    let service_info = ServiceInfo {
+        name: "rce-engine",
+        version: VERSION.unwrap_or("unknown"),
+        description: "Docker-based engine for executing untrusted code in isolated containers.",
+    };
+
+    api::prepare_json_response(&service_info, api::JsonFormat::Pretty)
 }

@@ -14,7 +14,7 @@ let
 in
 pkgs.dockerTools.buildImage {
   name = "toolkithub/rce-engine";
-  tag = "edge";
+  tag = "1.2.3";
   created = "now";
 
   config = {
@@ -51,8 +51,8 @@ pkgs.dockerTools.buildImage {
     Labels = {
       "org.opencontainers.image.authors" = "Success Kingsley <hello@xosnrdev.tech>";
       "org.opencontainers.image.source" = "https://github.com/toolkithub/rce-engine";
-      "org.opencontainers.image.version" = "edge";
-      "org.opencontainers.image.description" = "A service that provides http api for running untrusted code inside transient docker containers.";
+      "org.opencontainers.image.version" = "1.2.3";
+      "org.opencontainers.image.description" = "Docker-based engine for executing untrusted code in isolated containers.";
     };
   };
 }
