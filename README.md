@@ -1,7 +1,5 @@
 # rce-engine
 
-[![Main Test](https://github.com/ToolKitHub/rce-engine/actions/workflows/test.yml/badge.svg)](https://github.com/ToolKitHub/rce-engine/actions/workflows/test.yml)
-
 Docker-based engine for executing untrusted code in isolated containers.
 
 ## Core Features

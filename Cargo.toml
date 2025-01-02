@@ -5,6 +5,8 @@ authors = ["Success Kingsley <hello@xosnrdev.tech>"]
 description = """
 Docker-based engine for executing untrusted code in isolated containers.
 """
+homepage = "https://github.com/ToolKitHub/rce-engine?tab=readme-ov-file#readme"
+repository = "https://github.com/ToolKitHub/rce-engine"
 edition = "2021"
 
 [dependencies]
