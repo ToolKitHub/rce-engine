@@ -1,11 +1,12 @@
-use serde::Serialize;
-use serde_json::{Map, Value};
 use std::collections::HashMap;
 use std::fmt;
 use std::net;
 use std::os::unix::net::UnixStream;
 use std::str;
 use std::time::Duration;
+
+use serde::Serialize;
+use serde_json::{Map, Value};
 
 use crate::rce_engine::debug;
 use crate::rce_engine::docker;
@@ -247,9 +248,5 @@ fn decode_dict(data: &[u8]) -> Result<Map<String, Value>, serde_json::Error> {
 }
 
 fn err_if_false<E>(value: bool, err: E) -> Result<(), E> {
-    if value {
-        Ok(())
-    } else {
-        Err(err)
-    }
+    if value { Ok(()) } else { Err(err) }
 }

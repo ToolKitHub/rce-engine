@@ -1,10 +1,12 @@
-use crate::rce_engine::http_extra;
-use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::convert::TryInto;
 use std::fmt;
 use std::io;
 use std::io::{Read, Write};
+
+use serde::{Deserialize, Serialize};
+
+use crate::rce_engine::http_extra;
 
 #[derive(Debug, Serialize)]
 #[serde(rename_all = "PascalCase")]
@@ -335,11 +337,7 @@ fn io_read_error_to_stream_error(err: io::Error) -> StreamError {
 }
 
 fn err_if_false<E>(value: bool, err: E) -> Result<(), E> {
-    if value {
-        Ok(())
-    } else {
-        Err(err)
-    }
+    if value { Ok(()) } else { Err(err) }
 }
 
 #[derive(Debug)]
