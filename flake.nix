@@ -1,20 +1,12 @@
 {
   description =
     "Docker-based engine for executing untrusted code in isolated containers.";
-
-  # ----------------------------------------------------------------------------
-  # Inputs
-  # ----------------------------------------------------------------------------
   inputs = {
-    # Using a pinned nixpkgs reference for consistency
     nixpkgs.url =
-      "github:NixOS/nixpkgs?rev=de1864217bfa9b5845f465e771e0ecb48b30e02d";
+      "github:NixOS/nixpkgs?rev=a47b881e04af1dd6d414618846407b2d6c759380";
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  # ----------------------------------------------------------------------------
-  # Outputs
-  # ----------------------------------------------------------------------------
   outputs = { nixpkgs, flake-utils, ... }:
     flake-utils.lib.eachDefaultSystem (system:
       let
@@ -23,9 +15,6 @@
         manifest = pkgs.lib.importTOML ./Cargo.toml;
         package = manifest.package;
 
-        # ----------------------------------------------------------------------
-        # Rust Build
-        # ----------------------------------------------------------------------
         rustApp = pkgs.rustPlatform.buildRustPackage {
           pname = package.name;
           version = package.version;
@@ -41,10 +30,8 @@
         # Image author
         author = "toolkithub";
 
-        # ----------------------------------------------------------------------
         # Conditionally build Docker image only on Linux
         # (dockerTools can break on macOS, or cause flake check issues).
-        # ----------------------------------------------------------------------
         dockerImage = if pkgs.stdenv.isLinux then
           pkgs.dockerTools.buildImage {
             name = "${author}/${rustApp.pname}";
@@ -99,15 +86,12 @@
         devShell = pkgs.mkShell {
           buildInputs = [
             pkgs.docker
-
-            # Rust & dev tooling
             pkgs.cargo-watch
             pkgs.cargo-release
             pkgs.cargo-sort
-            pkgs.rustc
-            pkgs.cargo
-            pkgs.rustfmt
-            pkgs.clippy
+            pkgs.cargo-edit
+            pkgs.cargo-audit
+            pkgs.git
           ];
 
           shellHook = ''
@@ -154,10 +138,8 @@
           docker = dockerImage;
         };
 
-        # Formatter
         formatter = pkgs.nixfmt-classic;
 
-        # Development Shell
         devShells.default = devShell;
       });
 }

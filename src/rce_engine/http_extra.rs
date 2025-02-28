@@ -1,3 +1,10 @@
+use std::fmt;
+use std::io;
+use std::io::BufRead;
+use std::io::BufReader;
+use std::io::{Read, Write};
+use std::str::FromStr;
+
 use http::header;
 use http::header::CONTENT_LENGTH;
 use http::header::TRANSFER_ENCODING;
@@ -6,12 +13,6 @@ use http::status;
 use http::{Request, Response};
 use serde::de::DeserializeOwned;
 use serde::Deserialize;
-use std::fmt;
-use std::io;
-use std::io::BufRead;
-use std::io::BufReader;
-use std::io::{Read, Write};
-use std::str::FromStr;
 
 const CARRIAGE_RETURN: u8 = 0xD;
 const LINE_FEED: u8 = 0xA;

@@ -1,15 +1,5 @@
 #!/usr/bin/env bash
 
-#+-------------------------------------------------------------------------------------------------------------------------------------+
-# Author: Success Kingsley <hello@xosnrdev.tech>
-# Last Updated: 2024-09-16
-# Version: 1.2.4
-# License: MIT
-# Description: This script installs the rce-engine on an Ubuntu 22.04 or latest machine.
-# Usage: curl -fsSL https://raw.githubusercontent.com/toolkithub/rce-engine/main/scripts/install.sh -o install.sh \
-# sudo bash ./install.sh
-#+-------------------------------------------------------------------------------------------------------------------------------------+
-
 set -e
 
 # Function to log messages
