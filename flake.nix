@@ -1,6 +1,6 @@
 {
   description =
-    "Docker-based engine for executing untrusted code in isolated containers.";
+    "HTTP API for running untrusted code inside isolated Docker containers.";
   inputs = {
     nixpkgs.url =
       "github:NixOS/nixpkgs?rev=a47b881e04af1dd6d414618846407b2d6c759380";
