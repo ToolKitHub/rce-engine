@@ -15,7 +15,7 @@ pub fn handle() -> Result<api::SuccessResponse, api::ErrorResponse> {
     let service_info = ServiceInfo {
         name: "rce-engine".to_string(),
         version: VERSION.to_string(),
-        description: "Docker-based engine for executing untrusted code in isolated containers."
+        description: "HTTP API for running untrusted code inside isolated Docker containers."
             .to_string(),
     };
 
