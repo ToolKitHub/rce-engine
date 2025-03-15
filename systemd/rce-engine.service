@@ -8,7 +8,7 @@ Restart=always
 RestartSec=10
 ExecStart=/home/rce/bin/rce-engine
 Environment="SERVER_LISTEN_ADDR=0.0.0.0"
-Environment="SERVER_LISTEN_PORT=50051"
+Environment="SERVER_LISTEN_PORT=8080"
 Environment="SERVER_WORKER_THREADS=10"
 Environment="API_ACCESS_TOKEN=some-secret-token"
 Environment="DOCKER_UNIX_SOCKET_PATH=/var/run/docker.sock"

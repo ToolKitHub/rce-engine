@@ -13,7 +13,7 @@ apt update
 apt install runsc
 ```
 
-#### Set runsc as the default runtime
+## Set runsc as the default runtime
 
 Add a `default-runtime` field to `/etc/docker/daemon.json`. The file should look something like this:
 
@@ -29,7 +29,7 @@ Add a `default-runtime` field to `/etc/docker/daemon.json`. The file should look
 }
 ```
 
-#### Restart the docker daemon
+## Restart the docker daemon
 
 ```bash
 systemctl restart docker.service

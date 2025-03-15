@@ -1,6 +1,6 @@
 # Installation instructions for ubuntu 22.04
 
-#### Install and configure docker
+## Install and configure docker
 
 ```bash
 apt install docker.io
@@ -17,13 +17,13 @@ echo '{
 systemctl restart docker.service
 ```
 
-#### Pull the rce-engine image
+## Pull the rce-engine image
 
 ```bash
-docker pull toolkithub/rce-engine:edge
+docker pull toolkithub/rce-engine:latest
 ```
 
-#### Pull rce-images for the languages you want
+## Pull rce-images for the languages you want
 
 ```bash
 docker pull toolkithub/python:edge
@@ -31,21 +31,21 @@ docker pull toolkithub/rust:edge
 # ...
 ```
 
-#### Start the rce-engine container
+## Start the rce-engine container
 
 ```bash
-docker run --detach --restart=always --publish 50051:50051 --volume /var/run/docker.sock:/var/run/docker.sock --env "API_ACCESS_TOKEN=my-token" toolkithub/rce-engine:edge
+docker run --detach --restart=always --publish 8080:8080 --volume /var/run/docker.sock:/var/run/docker.sock --env "API_ACCESS_TOKEN=my-token" toolkithub/rce-engine:edge
 ```
 
-#### Check that everything is working
+## Check that everything is working
 
 ```bash
 # Print rce-engine version
-curl http://localhost:50051
+curl http://localhost:8080
 
 # Print docker version, etc
-curl --header 'X-Access-Token: my-token' http://localhost:50051/version
+curl --header 'X-Access-Token: my-token' http://localhost:8080/version
 
 # Run python code
-curl --request POST --header 'X-Access-Token: my-token' --header 'Content-type: application/json' --data '{"image": "rce-images-python:edge", "payload": {"language": "python", "files": [{"name": "main.py", "content": "print(42)"}]}}' http://localhost:50051/run
+curl --request POST --header 'X-Access-Token: my-token' --header 'Content-type: application/json' --data '{"image": "rce-images-python:edge", "payload": {"language": "python", "files": [{"name": "main.py", "content": "print(42)"}]}}' http://localhost:8080/run
 ```

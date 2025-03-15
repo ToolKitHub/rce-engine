@@ -1,6 +1,6 @@
 # Installation instructions for ubuntu 22.04
 
-#### Install and configure docker
+## Install and configure docker
 
 ```bash
 apt install docker.io
@@ -16,25 +16,25 @@ echo '{
 systemctl restart docker.service
 ```
 
-#### Create user for rce-engine
+## Create user for rce-engine
 
 ```bash
 useradd -m rce
 usermod -aG docker rce
 ```
 
-#### Install rce-engine binary
+## Install rce-engine binary
 
 ```bash
 mkdir /home/rce/bin
 cd /home/rce/bin
-wget https://github.com/toolkithub/rce-engine/releases/download/v.1.2.4/rce-engine_linux-x64.tar.gz
+wget https://github.com/toolkithub/rce-engine/releases/download/v.1.2.5/rce-engine_linux-x64.tar.gz
 tar -zxf rce-engine_linux-x64.tar.gz
 rm rce-engine_linux-x64.tar.gz
 chown -R rce:rce /home/rce/bin
 ```
 
-#### Add and configure systemd service
+### Add and configure systemd service
 
 Most of the configuration from the example file is ok but the `API_ACCESS_TOKEN` should be changed
 
@@ -59,11 +59,11 @@ docker pull toolkithub/rust:edge
 
 ```bash
 # Print rce-engine version
-curl http://localhost:50051
+curl http://localhost:8080
 
 # Print docker version, etc
-curl --header 'X-Access-Token: access-token-from-systemd-service' http://localhost:50051/version
+curl --header 'X-Access-Token: access-token-from-systemd-service' http://localhost:8080/version
 
 # Run python code
-curl --request POST --header 'X-Access-Token: access-token-from-systemd-service' --header 'Content-type: application/json' --data '{"image": "toolkithub/python:edge", "payload": {"language": "python", "files": [{"name": "main.py", "content": "print(42)"}]}}' http://localhost:50051/run
+curl --request POST --header 'X-Access-Token: access-token-from-systemd-service' --header 'Content-type: application/json' --data '{"image": "toolkithub/python:edge", "payload": {"language": "python", "files": [{"name": "main.py", "content": "print(42)"}]}}' http://localhost:8080/run
 ```

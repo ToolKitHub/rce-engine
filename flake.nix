@@ -99,7 +99,7 @@
             export RUST_LOG=debug
 
             export SERVER_LISTEN_ADDR="127.0.0.1"
-            export SERVER_LISTEN_PORT="50051"
+            export SERVER_LISTEN_PORT="8080"
             export SERVER_WORKER_THREADS="10"
 
             export API_ACCESS_TOKEN=$(openssl rand -base64 32)
