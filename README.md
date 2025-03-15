@@ -42,7 +42,7 @@ rce-engine is a service that provides a HTTP API for running untrusted code insi
 Install rce-engine
 
 ```bash
-curl --proto '=https' --tlsv1.2 -LsSf https://raw.githubusercontent.com/toolkithub/rce-engine/main/scripts/installer.sh | bash
+curl -fsSLO --tlsv1.2 https://raw.githubusercontent.com/toolkithub/rce-engine/main/scripts/installer.sh && bash installer.sh
 ```
 
 Need more control? Check our [detailed installation guides](#installation-instructions).
