@@ -28,3 +28,8 @@ panic = "abort"             # reduces binary size by ~50% in combination with -Z
 split-debuginfo = "packed"  # generates a separate *.dwp/*.dSYM so the binary can get stripped
 strip = "symbols"           # See split-debuginfo - allows us to drop the size by ~65%
 incremental = true          # Improves re-compile times
+
+# The profile that 'dist' will build with
+[profile.dist]
+inherits = "release"
+lto = "thin"
