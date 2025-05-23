@@ -143,7 +143,9 @@ These guides cover all aspects of installation including:
 
 ## Configuration
 
-rce-engine is configured via environment variables in `/etc/systemd/system/rce-engine.service.d/override.conf` or directly in the systemd service file.
+rce-engine is configured via environment variables in the systemd service file at `/etc/systemd/system/rce-engine.service`. As shown in the installation guide, you can edit this file directly to change configuration settings.
+
+Alternatively, for a more upgrade-friendly approach, you can create an override file at `/etc/systemd/system/rce-engine.service.d/override.conf`.
 
 ### Required Environment Variables
 

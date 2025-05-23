@@ -40,14 +40,39 @@ sudo chmod +rx /home/rce/bin/rce-engine
 
 ### Add and configure systemd service
 
-Most of the configuration from the example file is ok but the `API_ACCESS_TOKEN` should be changed
+Most of the configuration from the example file is ok but you should at least change the `API_ACCESS_TOKEN` to a secure value.
 
 ```bash
+# Download the service file
 curl https://raw.githubusercontent.com/toolkithub/rce-engine/main/systemd/rce-engine.service > /etc/systemd/system/rce-engine.service
 
-# Edit rce-engine.service in your favorite editor
+# Edit rce-engine.service in your favorite editor to change settings
+nano /etc/systemd/system/rce-engine.service
 
+# Enable and start the service
 systemctl enable rce-engine.service
+systemctl start rce-engine.service
+```
+
+#### Advanced: Using systemd overrides (optional)
+
+For a more upgrade-friendly approach, instead of directly editing the service file, you can create an override:
+
+```bash
+# Create the override directory
+mkdir -p /etc/systemd/system/rce-engine.service.d/
+
+# Create and edit the override file
+cat > /etc/systemd/system/rce-engine.service.d/override.conf << EOF
+[Service]
+Environment="API_ACCESS_TOKEN=your-secure-token-here"
+# Add any other settings you want to override
+EOF
+
+# Reload systemd configuration
+systemctl daemon-reload
+
+# Start the service
 systemctl start rce-engine.service
 ```
 
