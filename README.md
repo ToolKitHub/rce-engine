@@ -53,7 +53,28 @@ Response:
 
 ## Supported Languages
 
-Python, JavaScript, TypeScript, Ruby, Java, C, C++, Go, Rust, PHP, and 31 others.
+rce-engine currently supports these 41 programming languages:
+
+| Languages A-G | Languages G-N | Languages O-Z |
+|---------------|---------------|---------------|
+| Assembly      | Go            | OCaml         |
+| ATS           | Groovy        | Perl          |
+| Bash          | Haskell       | PHP           |
+| C             | Idris         | Python        |
+| C++           | Java          | Raku          |
+| C#            | JavaScript    | Ruby          |
+| Clojure       | Julia         | Rust          |
+| COBOL         | Kotlin        | Scala         |
+| CoffeeScript  | Lua           | Swift         |
+| Crystal       | Mercury       | TypeScript    |
+| D             | Nim           |               |
+| Dart          |               |               |
+| Elixir        |               |               |
+| Elm           |               |               |
+| Erlang        |               |               |
+| F#            |               |               |
+
+Don't see your language? [Open an issue](https://github.com/toolkithub/rce-engine/issues) and we'll consider adding it. New language support is continuously being added based on user demand.
 
 ## Documentation
 
