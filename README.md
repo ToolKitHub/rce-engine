@@ -101,7 +101,6 @@ Depending on your use-case you should also consider to:
 ## Installation instructions
 
 - [Run rce-engine with systemd](docs/install/ubuntu-22.04.md) (recommended)
-- [Run rce-engine in a docker container](docs/install/docker-ubuntu-22.04.md) (some people run into issues while running rce-engine in a container, see open issues)
 - [gVisor](docs/install/ubuntu-22.04-gvisor.md)
 
 ## FAQ
