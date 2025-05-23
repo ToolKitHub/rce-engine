@@ -129,37 +129,17 @@ Docker containers provide isolation but have known security limitations. For max
 
 ## Installation
 
-### Binary Installation
+rce-engine can be installed on Ubuntu 22.04 or newer servers. For detailed installation instructions, see:
 
-You can install just the rce-engine binary using our installer script:
+- [Standard Installation Guide](docs/install/ubuntu-22.04.md) (recommended)
+- [Enhanced Security Installation with gVisor](docs/install/ubuntu-22.04-gvisor.md)
 
-```bash
-curl --proto '=https' --tlsv1.2 -LsSf https://github.com/ToolKitHub/rce-engine/releases/download/v1.2.6/rce-engine-installer.sh | sh
-```
-
-**What the installer does:**
-- Installs the binary to `$HOME/.cargo/bin` by default and adds it to your PATH
-- Provides a working executable for the rce-engine service
-
-**What the installer does NOT do:**
-- Does NOT set up the systemd service configuration
-- Does NOT configure Docker security settings
-- Does NOT create the service user or set proper permissions
-- Does NOT install gVisor (if you want enhanced security)
-
-The installer supports the following customization options:
-- **Custom install location**: Set `RCE_ENGINE_INSTALL_DIR` environment variable before running the installer
-- **No PATH modification**: Set `RCE_ENGINE_NO_MODIFY_PATH=1` before running the installer
-- **Unmanaged installation**: Set `RCE_ENGINE_UNMANAGED_INSTALL` to a directory path
-
-After binary installation, you must still follow the manual setup steps in our installation guides to properly configure the service.
-
-### Manual Installation
-
-For complete control over the installation process, follow our detailed installation guides:
-
-- [Ubuntu 22.04 with systemd](docs/install/ubuntu-22.04.md) (recommended)
-- [Ubuntu 22.04 with gVisor](docs/install/ubuntu-22.04-gvisor.md) (enhanced security)
+These guides cover all aspects of installation including:
+- Setting up Docker
+- Creating the service user
+- Installing the binary
+- Configuring the systemd service
+- Setting up security measures
 
 ## Configuration
 

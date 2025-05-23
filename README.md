@@ -20,19 +20,9 @@
 
 ### Installation
 
-**Quick Binary Install** (installs only the binary to ~/.cargo/bin by default):
-```bash
-curl --proto '=https' --tlsv1.2 -LsSf https://github.com/ToolKitHub/rce-engine/releases/download/v1.2.6/rce-engine-installer.sh | sh
-```
-
-**Note:** The installer only provides the executable binary. You'll still need to:
-- Configure the systemd service
-- Set up proper permissions
-- Configure Docker security options
-
-For complete installation with proper service setup:
-- [Ubuntu 22.04 with systemd](docs/install/ubuntu-22.04.md) (recommended)
-- [Ubuntu 22.04 with gVisor](docs/install/ubuntu-22.04-gvisor.md) (enhanced security)
+For installation instructions, see:
+- [Standard Installation Guide](docs/install/ubuntu-22.04.md) (recommended)
+- [Enhanced Security Installation with gVisor](docs/install/ubuntu-22.04-gvisor.md)
 
 ### Basic Usage
 
