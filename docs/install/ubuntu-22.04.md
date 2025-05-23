@@ -25,6 +25,38 @@ usermod -aG docker rce
 
 ## Install rce-engine binary
 
+### Option 1: Using the Installer Script
+
+This installs **only the binary** to `$HOME/.cargo/bin` by default:
+
+```bash
+curl --proto '=https' --tlsv1.2 -LsSf https://github.com/ToolKitHub/rce-engine/releases/download/v1.2.6/rce-engine-installer.sh | sh
+```
+
+**Important:** After using the installer, you must:
+1. Make the binary accessible to the rce service user:
+   ```bash
+   # Create directory if it doesn't exist
+   sudo mkdir -p /home/rce/bin
+   
+   # Copy the binary to the rce user's directory
+   sudo cp $HOME/.cargo/bin/rce-engine /home/rce/bin/
+   
+   # Set proper ownership and permissions
+   sudo chown rce:rce /home/rce/bin/rce-engine
+   sudo chmod +rx /home/rce/bin/rce-engine
+   ```
+
+2. Continue with the systemd configuration steps below
+
+You can customize the installation by setting environment variables before running the installer:
+- `RCE_ENGINE_INSTALL_DIR=/path/to/install` - Install to a custom location
+- `RCE_ENGINE_NO_MODIFY_PATH=1` - Don't modify PATH
+
+### Option 2: Manual Installation
+
+If you prefer to install to a custom location:
+
 ```bash
 mkdir /home/rce/bin
 cd /home/rce/bin
