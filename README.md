@@ -1,6 +1,6 @@
 # rce-engine
 
-[![Version](https://img.shields.io/badge/version-1.2.5-blue.svg)](https://github.com/toolkithub/rce-engine/releases)
+[![Version](https://img.shields.io/badge/version-1.2.6-blue.svg)](https://github.com/toolkithub/rce-engine/releases)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 ![Ubuntu](https://img.shields.io/badge/ubuntu-22.04+-orange.svg)
 

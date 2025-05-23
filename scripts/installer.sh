@@ -5,7 +5,7 @@
 # 2. Install and configure gVisor as a secure container runtime
 # 3. Configure Docker with security-focused settings (networking disabled)
 # 4. Create dedicated 'rce' user and add to docker group
-# 5. Download and install rce-engine binary (v1.2.5)
+# 5. Download and install rce-engine binary (v1.2.6)
 # 6. Set up systemd service with API token authentication
 # 7. Enable and start the rce-engine service
 # 8. Present menu for installing supported programming languages (41 languages)
@@ -189,15 +189,15 @@ fi
 
 if [[ -f /home/rce/bin/rce-engine && -x /home/rce/bin/rce-engine ]]; then
 	installed_version=$(/home/rce/bin/rce-engine --version 2>/dev/null || echo "unknown")
-	if [[ "$installed_version" == *"v1.2.5"* ]]; then
-		log "rce-engine v1.2.5 is already installed"
+	if [[ "$installed_version" == *"v1.2.6"* ]]; then
+		log "rce-engine v1.2.6 is already installed"
 	else
 		log "Updating rce-engine binary..."
 		sudo mkdir -p /home/rce/bin
 		cd /home/rce/bin
 
 		log "Downloading rce-engine binary..."
-		curl -LO https://github.com/toolkithub/rce-engine/releases/download/v1.2.5/rce-engine_linux-x64.tar.gz || error "Failed to download rce-engine binary"
+		curl -LO https://github.com/toolkithub/rce-engine/releases/download/v1.2.6/rce-engine_linux-x64.tar.gz || error "Failed to download rce-engine binary"
 
 		log "Extracting rce-engine binary..."
 		sudo tar -zxf rce-engine_linux-x64.tar.gz || error "Failed to extract rce-engine binary"
@@ -212,7 +212,7 @@ else
 	cd /home/rce/bin
 
 	log "Downloading rce-engine binary..."
-	curl -LO https://github.com/toolkithub/rce-engine/releases/download/v1.2.5/rce-engine_linux-x64.tar.gz || error "Failed to download rce-engine binary"
+	curl -LO https://github.com/toolkithub/rce-engine/releases/download/v1.2.6/rce-engine_linux-x64.tar.gz || error "Failed to download rce-engine binary"
 
 	log "Extracting rce-engine binary..."
 	sudo tar -zxf rce-engine_linux-x64.tar.gz || error "Failed to extract rce-engine binary"

@@ -1,6 +1,6 @@
 [package]
 name = "rce-engine"
-version = "1.2.5"
+version = "1.2.6"
 authors = ["ToolKitHub"]
 description = "HTTP API for running untrusted code inside isolated Docker containers."
 homepage = "https://github.com/ToolKitHub/rce-engine?tab=readme-ov-file#readme"
@@ -32,4 +32,4 @@ incremental = true          # Improves re-compile times
 # The profile that 'dist' will build with
 [profile.dist]
 inherits = "release"
-lto = "thin"
+
