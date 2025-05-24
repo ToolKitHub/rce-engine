@@ -1,6 +1,6 @@
-# rce-engine
+# RCE Engine
 
-**rce-engine** is a secure service for running untrusted code inside isolated Docker containers via a simple HTTP API. Execute code in 41 different programming languages with strong security guarantees.
+RCE Engine is a secure service for running untrusted code inside isolated Docker containers via a simple HTTP API. See [supported languages](https://github.com/ToolKitHub/rce-runner)
 
 [View full documentation](DOCUMENTATION.md)
 
@@ -51,45 +51,13 @@ Response:
 }
 ```
 
-## Supported Languages
-
-rce-engine currently supports these 41 programming languages:
-
-| Languages A-G | Languages G-N | Languages O-Z |
-|---------------|---------------|---------------|
-| Assembly      | Go            | OCaml         |
-| ATS           | Groovy        | Perl          |
-| Bash          | Haskell       | PHP           |
-| C             | Idris         | Python        |
-| C++           | Java          | Raku          |
-| C#            | JavaScript    | Ruby          |
-| Clojure       | Julia         | Rust          |
-| COBOL         | Kotlin        | Scala         |
-| CoffeeScript  | Lua           | Swift         |
-| Crystal       | Mercury       | TypeScript    |
-| D             | Nim           |               |
-| Dart          |               |               |
-| Elixir        |               |               |
-| Elm           |               |               |
-| Erlang        |               |               |
-| F#            |               |               |
-
-Don't see your language? [Open an issue](https://github.com/toolkithub/rce-engine/issues) and we'll consider adding it. New language support is continuously being added based on user demand.
-
 ## Documentation
 
 - [Full documentation](DOCUMENTATION.md)
 - [API Reference](docs/api/run.md)
 - [Installation guides](docs/install/)
 
-## Security
-
-rce-engine is designed with security in mind:
-- Fresh container for each execution
-- Container destroyed after completion
-- Resource limits to prevent abuse
-- Optional gVisor runtime for enhanced isolation
 
 ## License
 
-[See License](./LICENSE)
+See [License](./LICENSE)

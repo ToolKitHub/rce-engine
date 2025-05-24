@@ -6,8 +6,7 @@ The `/run` endpoint is the core of the rce-engine API, allowing you to execute c
 
 - **URL**: `/run`
 - **Method**: `POST`
-- **Required Headers**:
-  - `X-Access-Token`: Your 
+- **Required Headers**: 
   - `X-Access-Token`: Your API access token (set in server configuration)
   - `Content-Type`: `application/json`
 
