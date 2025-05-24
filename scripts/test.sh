@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # RCE engine test script - Run code in multiple language containers
 set -eo pipefail
 
