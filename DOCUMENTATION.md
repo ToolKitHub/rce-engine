@@ -53,7 +53,7 @@ The service is built in Rust for high performance and safety.
 **Request Body**:
 ```json
 {
-  "image": "toolkithub/<language>:edge",
+  "image": "toolkithub/<language>:latest",
   "payload": {
     "language": "<language>",
     "files": [

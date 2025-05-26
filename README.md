@@ -1,6 +1,6 @@
-# RCE Engine
+# rce-engine
 
-RCE Engine is a secure service for running untrusted code inside isolated Docker containers via a simple HTTP API. See [supported languages](https://github.com/ToolKitHub/rce-runner)
+**rce-engine** is a secure service for running untrusted code inside isolated Docker containers via a simple HTTP API. See [supported languages](https://github.com/ToolKitHub/rce-runner)
 
 [View full documentation](DOCUMENTATION.md)
 
@@ -33,7 +33,7 @@ curl --request POST \
      --header 'X-Access-Token: your-token-here' \
      --header 'Content-Type: application/json' \
      --data '{
-       "image": "toolkithub/python:edge", 
+       "image": "toolkithub/python:latest", 
        "payload": {
          "language": "python", 
          "files": [{"name": "main.py", "content": "print(\"Hello world!\")"}]
