@@ -79,8 +79,8 @@ systemctl start rce-engine.service
 #### Pull rce-images
 
 ```bash
-docker pull toolkithub/python:edge
-docker pull toolkithub/rust:edge
+docker pull toolkithub/python:latest
+docker pull toolkithub/rust:latest
 # ...
 ```
 
@@ -94,5 +94,5 @@ curl http://localhost:8080
 curl --header 'X-Access-Token: access-token-from-systemd-service' http://localhost:8080/version
 
 # Run python code
-curl --request POST --header 'X-Access-Token: access-token-from-systemd-service' --header 'Content-type: application/json' --data '{"image": "toolkithub/python:edge", "payload": {"language": "python", "files": [{"name": "main.py", "content": "print(42)"}]}}' http://localhost:8080/run
+curl --request POST --header 'X-Access-Token: access-token-from-systemd-service' --header 'Content-type: application/json' --data '{"image": "toolkithub/python:latest", "payload": {"language": "python", "files": [{"name": "main.py", "content": "print(42)"}]}}' http://localhost:8080/run
 ```
