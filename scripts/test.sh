@@ -15,7 +15,7 @@ run_test() {
     [[ ! -f "$payload_file" ]] && { echo "Error: $payload_file not found"; return 1; }
     
     echo "Testing $2..."
-    local json="{\"image\":\"toolkithub/${1}:edge\",\"payload\":$(cat "${payload_file}")}"
+    local json="{\"image\":\"toolkithub/${1}:latest\",\"payload\":$(cat "${payload_file}")}"
     local response=$(curl -X POST \
         -H "Content-type: application/json" \
         -H "X-Access-Token: ${ACCESS_TOKEN}" \

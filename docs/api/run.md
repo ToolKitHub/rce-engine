@@ -14,7 +14,7 @@ The `/run` endpoint is the core of the rce-engine API, allowing you to execute c
 
 ```json
 {
-  "image": "toolkithub/<language>:edge",
+  "image": "toolkithub/<language>:latest",
   "payload": {
     "language": "<language>",
     "files": [
@@ -64,7 +64,7 @@ curl --request POST \
      --header 'X-Access-Token: your-token-here' \
      --header 'Content-type: application/json' \
      --data '{
-       "image": "toolkithub/python:edge", 
+       "image": "toolkithub/python:latest", 
        "payload": {
          "language": "python", 
          "files": [{"name": "main.py", "content": "print(42)"}]
@@ -94,7 +94,7 @@ curl --request POST \
      --header 'X-Access-Token: your-token-here' \
      --header 'Content-type: application/json' \
      --data '{
-       "image": "toolkithub/python:edge", 
+       "image": "toolkithub/python:latest", 
        "payload": {
          "language": "python",
          "stdin": "42", 
@@ -125,7 +125,7 @@ curl --request POST \
      --header 'X-Access-Token: your-token-here' \
      --header 'Content-type: application/json' \
      --data '{
-       "image": "toolkithub/bash:edge", 
+       "image": "toolkithub/bash:latest", 
        "payload": {
          "language": "bash",
          "command": "bash main.sh 42", 
@@ -156,7 +156,7 @@ curl --request POST \
      --header 'X-Access-Token: your-token-here' \
      --header 'Content-type: application/json' \
      --data '{
-       "image": "toolkithub/clang:edge", 
+       "image": "toolkithub/clang:latest", 
        "payload": {
          "language": "cpp",
          "files": [
