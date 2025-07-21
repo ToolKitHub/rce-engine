@@ -52,12 +52,11 @@ pub enum Error {
 impl fmt::Display for Error {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            Error::KeyNotFound(key) => write!(f, "Environment key not found: «{0}»", key),
+            Error::KeyNotFound(key) => write!(f, "Environment key not found: «{key}»"),
 
             Error::Parse { key, details } => write!(
                 f,
-                "Failed to parse value for environment key: «{0}», details: {1}",
-                key, details
+                "Failed to parse value for environment key: «{key}», details: {details}"
             ),
         }
     }

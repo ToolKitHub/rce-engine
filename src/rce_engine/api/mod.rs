@@ -47,7 +47,7 @@ pub fn prepare_json_response<T: serde::Serialize>(
             status_code: 500,
             body: ErrorBody {
                 error: "response.serialize".to_string(),
-                message: format!("Failed to serialize response: {}", err),
+                message: format!("Failed to serialize response: {err}"),
             },
         }),
     }
