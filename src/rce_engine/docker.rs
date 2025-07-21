@@ -54,11 +54,11 @@ impl fmt::Display for Error {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
             Error::PrepareRequest(err) => {
-                write!(f, "Failed to prepare request: {}", err)
+                write!(f, "Failed to prepare request: {err}")
             }
 
             Error::SendRequest(err) => {
-                write!(f, "Failed while sending request: {}", err)
+                write!(f, "Failed while sending request: {err}")
             }
         }
     }
@@ -74,11 +74,11 @@ impl fmt::Display for PrepareRequestError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
             PrepareRequestError::SerializeBody(err) => {
-                write!(f, "Failed to serialize request body: {}", err)
+                write!(f, "Failed to serialize request body: {err}")
             }
 
             PrepareRequestError::Request(err) => {
-                write!(f, "{}", err)
+                write!(f, "{err}")
             }
         }
     }
@@ -167,7 +167,7 @@ pub fn create_container<Stream: Read + Write>(
 pub fn start_container_request(
     container_id: &str,
 ) -> Result<http::Request<http_extra::Body>, http::Error> {
-    let url = format!("/containers/{}/start", container_id);
+    let url = format!("/containers/{container_id}/start");
 
     http::Request::post(url)
         .header("Accept", "application/json")
@@ -189,7 +189,7 @@ pub fn start_container<Stream: Read + Write>(
 pub fn remove_container_request(
     container_id: &str,
 ) -> Result<http::Request<http_extra::Body>, http::Error> {
-    let url = format!("/containers/{}?v=1&force=1", container_id);
+    let url = format!("/containers/{container_id}?v=1&force=1");
 
     http::Request::delete(url)
         .header("Accept", "application/json")
@@ -211,10 +211,7 @@ pub fn remove_container<Stream: Read + Write>(
 pub fn attach_container_request(
     container_id: &str,
 ) -> Result<http::Request<http_extra::Body>, http::Error> {
-    let url = format!(
-        "/containers/{}/attach?stream=1&stdout=1&stdin=1&stderr=1",
-        container_id
-    );
+    let url = format!("/containers/{container_id}/attach?stream=1&stdout=1&stdin=1&stderr=1");
 
     http::Request::post(url)
         .header("Host", "127.0.0.1")
@@ -246,23 +243,23 @@ impl fmt::Display for StreamError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
             StreamError::Read(err) => {
-                write!(f, "{}", err)
+                write!(f, "{err}")
             }
 
             StreamError::ReadStreamType(err) => {
-                write!(f, "Failed to read stream type: {}", err)
+                write!(f, "Failed to read stream type: {err}")
             }
 
             StreamError::UnknownStreamType(stream_type) => {
-                write!(f, "Unknown stream type: (type: {})", stream_type)
+                write!(f, "Unknown stream type: (type: {stream_type})")
             }
 
             StreamError::ReadStreamLength(err) => {
-                write!(f, "Failed to read stream length: {}", err)
+                write!(f, "Failed to read stream length: {err}")
             }
 
             StreamError::InvalidStreamLength(err) => {
-                write!(f, "Failed to parse stream length: {}", err)
+                write!(f, "Failed to parse stream length: {err}")
             }
 
             StreamError::MaxExecutionTime() => {
@@ -270,7 +267,7 @@ impl fmt::Display for StreamError {
             }
 
             StreamError::MaxReadSize(max_size) => {
-                write!(f, "Max output size exceeded ({} bytes)", max_size)
+                write!(f, "Max output size exceeded ({max_size} bytes)")
             }
         }
     }

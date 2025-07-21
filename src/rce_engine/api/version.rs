@@ -55,11 +55,11 @@ impl fmt::Display for Error {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
             Error::UnixStream(err) => {
-                write!(f, "Unix socket failure: {}", err)
+                write!(f, "Unix socket failure: {err}")
             }
 
             Error::Version(err) => {
-                write!(f, "Failed to get docker version: {}", err)
+                write!(f, "Failed to get docker version: {err}")
             }
         }
     }

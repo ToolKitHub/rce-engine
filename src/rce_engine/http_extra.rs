@@ -37,33 +37,33 @@ impl fmt::Display for Error {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
             Error::WriteRequest(err) => {
-                write!(f, "Failed to send request: {}", err)
+                write!(f, "Failed to send request: {err}")
             }
 
             Error::ReadResponse(err) => {
-                write!(f, "Failed read response: {}", err)
+                write!(f, "Failed read response: {err}")
             }
 
             Error::ParseResponseHead(err) => {
-                write!(f, "Failed parse response head: {}", err)
+                write!(f, "Failed parse response head: {err}")
             }
 
             Error::ReadChunkedBody(err) => {
-                write!(f, "Failed read to chunked response body: {}", err)
+                write!(f, "Failed read to chunked response body: {err}")
             }
 
             Error::ReadBody(err) => {
-                write!(f, "Failed read to response body: {}", err)
+                write!(f, "Failed read to response body: {err}")
             }
 
             Error::BadStatus(status_code, body) => {
-                let msg = String::from_utf8(body.to_vec()).unwrap_or(format!("{:?}", body));
+                let msg = String::from_utf8(body.to_vec()).unwrap_or(format!("{body:?}"));
 
-                write!(f, "Unexpected status code {}: {}", status_code, msg)
+                write!(f, "Unexpected status code {status_code}: {msg}")
             }
 
             Error::DeserializeBody(err) => {
-                write!(f, "Failed deserialize response body: {}", err)
+                write!(f, "Failed deserialize response body: {err}")
             }
         }
     }
@@ -134,19 +134,19 @@ impl fmt::Display for ReadChunkError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
             ReadChunkError::ReadChunkLength(err) => {
-                write!(f, "Failed to read chunk length: {}", err)
+                write!(f, "Failed to read chunk length: {err}")
             }
 
             ReadChunkError::ParseChunkLength(err) => {
-                write!(f, "Failed parse chunk length: {}", err)
+                write!(f, "Failed parse chunk length: {err}")
             }
 
             ReadChunkError::ReadChunk(err) => {
-                write!(f, "Failed read chunk: {}", err)
+                write!(f, "Failed read chunk: {err}")
             }
 
             ReadChunkError::SkipLineFeed(err) => {
-                write!(f, "Failed read line feed at end of chunk: {}", err)
+                write!(f, "Failed read line feed at end of chunk: {err}")
             }
         }
     }
@@ -251,10 +251,10 @@ pub fn format_request_headers<T>(req: &Request<T>) -> String {
 
 fn write_request_head<T, W: Write>(mut writer: W, req: &Request<T>) -> Result<(), io::Error> {
     let request_line = format_request_line(req);
-    write!(writer, "{}\r\n", request_line)?;
+    write!(writer, "{request_line}\r\n")?;
 
     let headers = format_request_headers(req);
-    write!(writer, "{}\r\n\r\n", headers)
+    write!(writer, "{headers}\r\n\r\n")
 }
 
 fn write_request_body<W: Write>(mut writer: W, req: &Request<Body>) -> Result<(), io::Error> {
@@ -291,7 +291,7 @@ impl fmt::Display for ParseError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
             ParseError::Parse(err) => {
-                write!(f, "{}", err)
+                write!(f, "{err}")
             }
 
             ParseError::Empty() => {
@@ -303,7 +303,7 @@ impl fmt::Display for ParseError {
             }
 
             ParseError::Response(err) => {
-                write!(f, "Invalid response: {}", err)
+                write!(f, "Invalid response: {err}")
             }
         }
     }
@@ -348,11 +348,11 @@ impl fmt::Display for ResponseError {
             }
 
             ResponseError::HeaderName(err) => {
-                write!(f, "Invalid header name: {}", err)
+                write!(f, "Invalid header name: {err}")
             }
 
             ResponseError::HeaderValue(err) => {
-                write!(f, "Invalid header value: {}", err)
+                write!(f, "Invalid header value: {err}")
             }
 
             ResponseError::StatusCode() => {
@@ -360,7 +360,7 @@ impl fmt::Display for ResponseError {
             }
 
             ResponseError::Builder(err) => {
-                write!(f, "Response builder error: {}", err)
+                write!(f, "Response builder error: {err}")
             }
         }
     }

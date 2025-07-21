@@ -53,11 +53,11 @@ impl fmt::Display for Error {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
             Error::Connect(err) => {
-                write!(f, "Failed to connect to docker unix socket: {}", err)
+                write!(f, "Failed to connect to docker unix socket: {err}")
             }
 
             Error::SetStreamTimeout(err) => {
-                write!(f, "Failed set timeout on unix socket: {}", err)
+                write!(f, "Failed set timeout on unix socket: {err}")
             }
         }
     }

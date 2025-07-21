@@ -29,7 +29,7 @@ async fn main() -> std::io::Result<()> {
     let listen_port = config.server.listen_port;
     let worker_threads = config.server.worker_threads;
 
-    log::info!("Listening on {}:{}", listen_addr, listen_port,);
+    log::info!("Listening on {listen_addr}:{listen_port}",);
 
     HttpServer::new(move || {
         App::new()
@@ -115,7 +115,7 @@ fn prepare_config(env: &environment::Environment) -> config::Config {
         Ok(config) => config,
 
         Err(err) => {
-            log::error!("Failed to build config: {}", err);
+            log::error!("Failed to build config: {err}");
             process::exit(1)
         }
     }
