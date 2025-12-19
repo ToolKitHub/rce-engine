@@ -1,13 +1,13 @@
 # rce-engine
 
-A secure service for running untrusted code inside isolated Docker containers via a simple HTTP API. See [supported programming languages](https://github.com/ToolKitHub/rce-runner)
+A secure service for running untrusted code inside isolated Docker containers via a simple HTTP API. 
 
-See [Documentation](DOCUMENTATION.md) for more details.
+See [supported programming languages](https://github.com/ToolKitHub/rce-runner).
 
 ## Features
 
 - **Security First**: Run untrusted code safely in isolated containers
-- **Language Support**: Execute code in 41 programming languages
+- **Language Support**: Execute code in multiple programming languages
 - **Simple API**: Easy integration with a straightforward REST API
 - **Fast Execution**: Optimized container startup (250-2200ms)
 - **Resource Control**: Configure memory, CPU, and execution time limits

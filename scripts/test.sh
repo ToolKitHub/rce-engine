@@ -1,20 +1,18 @@
-#!/bin/bash
-# RCE engine test script - Run code in multiple language containers
-set -eo pipefail
+#!/bin/sh
 
-# Validate args
+set -eu
+
 [[ $# -ne 2 ]] && { echo "Usage: $0 <base_url> <access_token>"; exit 1; }
 
 BASE_URL="$1"
 ACCESS_TOKEN="$2"
 PAYLOAD_DIR="$(dirname "$0")/payload"
 
-# Test languages
-run_test() {
+run() {
     local payload_file="${PAYLOAD_DIR}/${2}.json"
     [[ ! -f "$payload_file" ]] && { echo "Error: $payload_file not found"; return 1; }
     
-    echo "Testing $2..."
+    echo "Running $2..."
     local json="{\"image\":\"toolkithub/${1}:latest\",\"payload\":$(cat "${payload_file}")}"
     local response=$(curl -X POST \
         -H "Content-type: application/json" \
@@ -26,7 +24,6 @@ run_test() {
     echo
 }
 
-# Language definitions - format: "image:payload_name"
 LANGS=(
     "assembly:assembly" "ats:ats" "bash:bash" "clang:c" "clang:cpp"
     "clojure:clojure" "cobol:cobol" "coffeescript:coffeescript" 
@@ -40,12 +37,6 @@ LANGS=(
     "typescript:typescript"
 )
 
-echo "Starting tests against ${BASE_URL}"
-echo "--------------------------------"
-
-# Run all tests
 for lang in "${LANGS[@]}"; do
-    run_test ${lang%:*} ${lang#*:}
+    run ${lang%:*} ${lang#*:}
 done
-
-echo "All tests complete!"
