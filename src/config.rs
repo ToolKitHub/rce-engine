@@ -1,9 +1,5 @@
-use crate::rce_engine::api;
-use crate::rce_engine::debug;
-use crate::rce_engine::run;
-use crate::rce_engine::unix_stream;
+use crate::{api, debug, run, unix_stream};
 
-#[derive(Clone, Debug)]
 pub struct Config {
     pub server: ServerConfig,
     pub api: api::ApiConfig,

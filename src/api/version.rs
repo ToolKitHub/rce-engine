@@ -1,11 +1,8 @@
 use std::fmt;
 
-use crate::rce_engine::api;
-use crate::rce_engine::config;
-use crate::rce_engine::docker;
-use crate::rce_engine::unix_stream;
+use crate::{api, config, docker, unix_stream};
 
-#[derive(Debug, serde::Serialize)]
+#[derive(serde::Serialize)]
 struct VersionInfo {
     docker: docker::VersionResponse,
 }
@@ -13,7 +10,7 @@ struct VersionInfo {
 pub fn handle(config: &config::Config) -> Result<api::SuccessResponse, api::ErrorResponse> {
     let data = get_version_info(&config.unix_socket).map_err(handle_error)?;
 
-    api::prepare_json_response(&data, api::JsonFormat::Pretty)
+    api::prepare_json_response(&data, &api::JsonFormat::Pretty)
 }
 
 fn get_version_info(stream_config: &unix_stream::Config) -> Result<VersionInfo, Error> {
@@ -21,27 +18,19 @@ fn get_version_info(stream_config: &unix_stream::Config) -> Result<VersionInfo, 
         docker::version(stream).map_err(Error::Version)
     })?;
 
-    Ok(VersionInfo {
-        docker: docker_response.body().clone(),
-    })
+    Ok(VersionInfo { docker: docker_response.into_body() })
 }
 
 fn handle_error(err: Error) -> api::ErrorResponse {
     match err {
         Error::UnixStream(_) => api::ErrorResponse {
             status_code: 500,
-            body: api::ErrorBody {
-                error: "docker.unixsocket".to_string(),
-                message: err.to_string(),
-            },
+            body: api::ErrorBody { error: "docker.unixsocket", message: err.to_string().into() },
         },
 
         Error::Version(_) => api::ErrorResponse {
             status_code: 500,
-            body: api::ErrorBody {
-                error: "docker.version".to_string(),
-                message: err.to_string(),
-            },
+            body: api::ErrorBody { error: "docker.version", message: err.to_string().into() },
         },
     }
 }

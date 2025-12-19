@@ -2,18 +2,17 @@ pub mod root;
 pub mod run;
 pub mod version;
 
-#[derive(Debug, Clone)]
+use std::borrow::Cow;
+
 pub struct ApiConfig {
     pub access_token: String,
 }
 
+#[must_use]
 pub fn authorization_error() -> ErrorResponse {
     ErrorResponse {
         status_code: 401,
-        body: ErrorBody {
-            error: "access_token".to_string(),
-            message: "Missing or wrong access token".to_string(),
-        },
+        body: ErrorBody { error: "access_token", message: "Missing or wrong access token".into() },
     }
 }
 
@@ -29,7 +28,7 @@ pub enum JsonFormat {
 
 pub fn prepare_json_response<T: serde::Serialize>(
     body: &T,
-    format: JsonFormat,
+    format: &JsonFormat,
 ) -> Result<SuccessResponse, ErrorResponse> {
     let json_to_vec = match format {
         JsonFormat::Minimal => serde_json::to_vec,
@@ -38,16 +37,13 @@ pub fn prepare_json_response<T: serde::Serialize>(
     };
 
     match json_to_vec(body) {
-        Ok(data) => Ok(SuccessResponse {
-            status_code: 200,
-            body: data,
-        }),
+        Ok(data) => Ok(SuccessResponse { status_code: 200, body: data }),
 
         Err(err) => Err(ErrorResponse {
             status_code: 500,
             body: ErrorBody {
-                error: "response.serialize".to_string(),
-                message: format!("Failed to serialize response: {err}"),
+                error: "response.serialize",
+                message: format!("Failed to serialize response: {err}").into(),
             },
         }),
     }
@@ -62,6 +58,6 @@ pub struct ErrorResponse {
 #[derive(Debug, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ErrorBody {
-    pub error: String,
-    pub message: String,
+    pub error: &'static str,
+    pub message: Cow<'static, str>,
 }

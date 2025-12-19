@@ -1,16 +1,12 @@
 use std::collections::HashMap;
-use std::fmt;
-use std::net;
 use std::os::unix::net::UnixStream;
-use std::str;
 use std::time::Duration;
+use std::{fmt, net, str};
 
 use serde::Serialize;
 use serde_json::{Map, Value};
 
-use crate::rce_engine::debug;
-use crate::rce_engine::docker;
-use crate::rce_engine::unix_stream;
+use crate::{debug, docker, unix_stream};
 
 #[derive(Debug)]
 pub struct RunRequest<Payload: Serialize> {
@@ -97,10 +93,7 @@ where
         .map_err(Error::ReadStream)?;
 
     // Return error if we recieved stdin or stderr data from the stream
-    err_if_false(
-        output.stdin.is_empty(),
-        Error::StreamStdinUnexpected(output.stdin),
-    )?;
+    err_if_false(output.stdin.is_empty(), Error::StreamStdinUnexpected(output.stdin))?;
     err_if_false(output.stderr.is_empty(), Error::StreamStderr(output.stderr))?;
 
     // Decode stdout data to dict
@@ -131,6 +124,7 @@ pub struct Tmpfs {
 }
 
 impl ContainerConfig {
+    #[must_use]
     pub fn tmpfs_mounts(&self) -> HashMap<String, String> {
         [&self.tmp_dir, &self.work_dir]
             .iter()
@@ -140,6 +134,7 @@ impl ContainerConfig {
     }
 }
 
+#[must_use]
 pub fn prepare_container_config(
     image_name: String,
     config: ContainerConfig,
@@ -164,12 +159,12 @@ pub fn prepare_container_config(
             cap_drop: config.cap_drop,
             ulimits: vec![
                 docker::Ulimit {
-                    name: "nofile".to_string(),
+                    name: "nofile",
                     soft: config.ulimit_nofile_soft,
                     hard: config.ulimit_nofile_hard,
                 },
                 docker::Ulimit {
-                    name: "nproc".to_string(),
+                    name: "nproc",
                     soft: config.ulimit_nproc_soft,
                     hard: config.ulimit_nproc_hard,
                 },
@@ -221,13 +216,13 @@ impl fmt::Display for Error {
             }
 
             Error::StreamStdinUnexpected(bytes) => {
-                let msg = String::from_utf8(bytes.to_vec()).unwrap_or(format!("{bytes:?}"));
+                let msg = String::from_utf8(bytes.clone()).unwrap_or(format!("{bytes:?}"));
 
                 write!(f, "Code runner returned unexpected stdin data: {msg}")
             }
 
             Error::StreamStderr(bytes) => {
-                let msg = String::from_utf8(bytes.to_vec()).unwrap_or(format!("{bytes:?}"));
+                let msg = String::from_utf8(bytes.clone()).unwrap_or(format!("{bytes:?}"));
 
                 write!(f, "Code runner failed with the following message: {msg}")
             }

@@ -1,9 +1,8 @@
-use std::fmt;
-use std::io;
 use std::net::Shutdown;
 use std::os::unix::net::UnixStream;
 use std::path::PathBuf;
 use std::time::Duration;
+use std::{fmt, io};
 
 #[derive(Debug, Clone)]
 pub struct Config {
@@ -22,9 +21,7 @@ where
     ErrorTagger: Copy,
     ErrorTagger: FnOnce(Error) -> E,
 {
-    let mut stream = UnixStream::connect(&config.path)
-        .map_err(Error::Connect)
-        .map_err(to_error)?;
+    let mut stream = UnixStream::connect(&config.path).map_err(Error::Connect).map_err(to_error)?;
 
     stream
         .set_read_timeout(Some(config.read_timeout))

@@ -1,10 +1,10 @@
 use std::collections::HashMap;
-use std::env;
-use std::fmt;
 use std::str::FromStr;
+use std::{env, fmt};
 
 pub type Environment = HashMap<String, String>;
 
+#[must_use]
 pub fn get_environment() -> Environment {
     env::vars().collect()
 }
@@ -14,15 +14,9 @@ where
     T: FromStr,
     T::Err: fmt::Display,
 {
-    environment
-        .get(key)
-        .ok_or(Error::KeyNotFound(key))
-        .and_then(|string_value| {
-            string_value.parse::<T>().map_err(|err| Error::Parse {
-                key,
-                details: err.to_string(),
-            })
-        })
+    environment.get(key).ok_or(Error::KeyNotFound(key)).and_then(|string_value| {
+        string_value.parse::<T>().map_err(|err| Error::Parse { key, details: err.to_string() })
+    })
 }
 
 pub fn lookup_optional<T>(environment: &Environment, key: &'static str) -> Result<Option<T>, Error>
@@ -36,10 +30,7 @@ where
         Some(string_value) => string_value
             .parse::<T>()
             .map(Some)
-            .map_err(|err| Error::Parse {
-                key,
-                details: err.to_string(),
-            }),
+            .map_err(|err| Error::Parse { key, details: err.to_string() }),
     }
 }
 
@@ -54,17 +45,14 @@ impl fmt::Display for Error {
         match self {
             Error::KeyNotFound(key) => write!(f, "Environment key not found: «{key}»"),
 
-            Error::Parse { key, details } => write!(
-                f,
-                "Failed to parse value for environment key: «{key}», details: {details}"
-            ),
+            Error::Parse { key, details } => {
+                write!(f, "Failed to parse value for environment key: «{key}», details: {details}")
+            }
         }
     }
 }
 
+#[must_use]
 pub fn space_separated_string(s: String) -> Vec<String> {
-    s.split(' ')
-        .map(|s| s.trim().to_string())
-        .filter(|s| !s.is_empty())
-        .collect()
+    s.split(' ').map(|s| s.trim().to_string()).filter(|s| !s.is_empty()).collect()
 }

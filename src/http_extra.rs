@@ -1,16 +1,9 @@
-use std::fmt;
-use std::io;
-use std::io::BufRead;
-use std::io::BufReader;
-use std::io::{Read, Write};
+use std::io::{BufRead, BufReader, Read, Write};
 use std::str::FromStr;
+use std::{fmt, io};
 
-use http::header;
-use http::header::CONTENT_LENGTH;
-use http::header::TRANSFER_ENCODING;
-use http::response;
-use http::status;
-use http::{Request, Response};
+use http::header::{CONTENT_LENGTH, TRANSFER_ENCODING};
+use http::{Request, Response, header, response, status};
 use serde::Deserialize;
 use serde::de::DeserializeOwned;
 
@@ -57,7 +50,7 @@ impl fmt::Display for Error {
             }
 
             Error::BadStatus(status_code, body) => {
-                let msg = String::from_utf8(body.to_vec()).unwrap_or(format!("{body:?}"));
+                let msg = String::from_utf8(body.clone()).unwrap_or(format!("{body:?}"));
 
                 write!(f, "Unexpected status code {status_code}: {msg}")
             }
@@ -88,16 +81,13 @@ where
     let response_parts = parse_response_head(response_head).map_err(Error::ParseResponseHead)?;
 
     // Read response body
-    let raw_body = match get_transfer_encoding(&response_parts.headers) {
-        TransferEncoding::Chunked() => {
+    let raw_body =
+        if let TransferEncoding::Chunked() = get_transfer_encoding(&response_parts.headers) {
             read_chunked_response_body(reader).map_err(Error::ReadChunkedBody)?
-        }
-
-        _ => {
+        } else {
             let content_length = get_content_length(&response_parts.headers);
             read_response_body(content_length, reader).map_err(Error::ReadBody)?
-        }
-    };
+        };
 
     err_if_false(
         response_parts.status.is_success(),
@@ -162,7 +152,7 @@ fn read_chunked_response_body<R: BufRead>(mut reader: R) -> Result<Vec<u8>, Read
             break;
         }
 
-        body.append(&mut chunk)
+        body.append(&mut chunk);
     }
 
     Ok(body)
@@ -171,9 +161,7 @@ fn read_chunked_response_body<R: BufRead>(mut reader: R) -> Result<Vec<u8>, Read
 fn read_response_chunk<R: BufRead>(mut reader: R) -> Result<Vec<u8>, ReadChunkError> {
     let mut buffer = String::new();
 
-    reader
-        .read_line(&mut buffer)
-        .map_err(ReadChunkError::ReadChunkLength)?;
+    reader.read_line(&mut buffer).map_err(ReadChunkError::ReadChunkLength)?;
 
     let chunk_length =
         usize::from_str_radix(buffer.trim_end(), 16).map_err(ReadChunkError::ParseChunkLength)?;
@@ -181,18 +169,13 @@ fn read_response_chunk<R: BufRead>(mut reader: R) -> Result<Vec<u8>, ReadChunkEr
     let chunk = read_response_body(chunk_length, &mut reader).map_err(ReadChunkError::ReadChunk)?;
 
     let mut void = String::new();
-    reader
-        .read_line(&mut void)
-        .map_err(ReadChunkError::SkipLineFeed)?;
+    reader.read_line(&mut void).map_err(ReadChunkError::SkipLineFeed)?;
 
     Ok(chunk)
 }
 
 fn get_content_length(headers: &header::HeaderMap<header::HeaderValue>) -> usize {
-    headers
-        .get(CONTENT_LENGTH)
-        .map(|value| value.to_str().unwrap_or("").parse().unwrap_or(0))
-        .unwrap_or(0)
+    headers.get(CONTENT_LENGTH).map_or(0, |value| value.to_str().unwrap_or("").parse().unwrap_or(0))
 }
 
 #[allow(dead_code)]
@@ -236,7 +219,7 @@ impl<'de> Deserialize<'de> for EmptyResponse {
 }
 
 pub fn format_request_line<T>(req: &Request<T>) -> String {
-    let path = req.uri().path_and_query().map(|x| x.as_str()).unwrap_or("");
+    let path = req.uri().path_and_query().map_or("", http::uri::PathAndQuery::as_str);
 
     format!("{} {} {:?}", req.method(), path, req.version())
 }
@@ -368,9 +351,7 @@ impl fmt::Display for ResponseError {
 
 fn to_http_parts(parsed: httparse::Response) -> Result<response::Parts, ResponseError> {
     let mut builder = Response::builder();
-    let headers = builder
-        .headers_mut()
-        .ok_or(ResponseError::InvalidBuilder())?;
+    let headers = builder.headers_mut().ok_or(ResponseError::InvalidBuilder())?;
 
     for hdr in parsed.headers.iter() {
         let name = header::HeaderName::from_str(hdr.name).map_err(ResponseError::HeaderName)?;
@@ -383,10 +364,7 @@ fn to_http_parts(parsed: httparse::Response) -> Result<response::Parts, Response
 
     let code = parsed.code.ok_or(ResponseError::StatusCode())?;
 
-    let response = builder
-        .status(code)
-        .body(())
-        .map_err(ResponseError::Builder)?;
+    let response = builder.status(code).body(()).map_err(ResponseError::Builder)?;
 
     Ok(response.into_parts().0)
 }
