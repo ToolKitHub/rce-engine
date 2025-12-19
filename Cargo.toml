@@ -1,6 +1,6 @@
 [package]
 name = "rce-engine"
-version = "1.2.71"
+version = "1.2.72"
 edition = "2024"
 authors = ["ToolKitHub <xosnrdev@gmail.com>"]
 description = "A secure service for running untrusted code inside isolated Docker containers via a simple HTTP API"
