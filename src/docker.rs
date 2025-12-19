@@ -1,12 +1,11 @@
 use std::collections::HashMap;
 use std::convert::TryInto;
-use std::fmt;
-use std::io;
 use std::io::{Read, Write};
+use std::{fmt, io};
 
 use serde::{Deserialize, Serialize};
 
-use crate::rce_engine::http_extra;
+use crate::http_extra;
 
 #[derive(Debug, Serialize)]
 #[serde(rename_all = "PascalCase")]
@@ -39,7 +38,7 @@ pub struct HostConfig {
 #[derive(Debug, Serialize)]
 #[serde(rename_all = "PascalCase")]
 pub struct Ulimit {
-    pub name: String,
+    pub name: &'static str,
     pub soft: i64,
     pub hard: i64,
 }
@@ -213,9 +212,7 @@ pub fn attach_container_request(
 ) -> Result<http::Request<http_extra::Body>, http::Error> {
     let url = format!("/containers/{container_id}/attach?stream=1&stdout=1&stdin=1&stderr=1");
 
-    http::Request::post(url)
-        .header("Host", "127.0.0.1")
-        .body(http_extra::Body::Empty())
+    http::Request::post(url).header("Host", "127.0.0.1").body(http_extra::Body::Empty())
 }
 
 pub fn attach_container<Stream: Read + Write>(
@@ -292,9 +289,7 @@ pub fn read_stream<R: Read>(r: R, max_read_size: usize) -> Result<StreamOutput, 
         let stream_length = read_stream_length(&mut reader)?;
 
         let mut buffer = vec![0u8; stream_length];
-        reader
-            .read_exact(&mut buffer)
-            .map_err(io_read_error_to_stream_error)?;
+        reader.read_exact(&mut buffer).map_err(io_read_error_to_stream_error)?;
 
         match stream_type {
             StreamType::Stdin() => {
@@ -312,17 +307,10 @@ pub fn read_stream<R: Read>(r: R, max_read_size: usize) -> Result<StreamOutput, 
 
         read_size += stream_length;
 
-        err_if_false(
-            read_size <= max_read_size,
-            StreamError::MaxReadSize(max_read_size),
-        )?;
+        err_if_false(read_size <= max_read_size, StreamError::MaxReadSize(max_read_size))?;
     }
 
-    Ok(StreamOutput {
-        stdin,
-        stdout,
-        stderr,
-    })
+    Ok(StreamOutput { stdin, stdout, stderr })
 }
 
 fn io_read_error_to_stream_error(err: io::Error) -> StreamError {
@@ -357,20 +345,14 @@ impl StreamType {
 
 fn read_stream_type<R: Read>(mut reader: R) -> Result<StreamType, StreamError> {
     let mut buffer = [0; 4];
-    reader
-        .read_exact(&mut buffer)
-        .map_err(StreamError::ReadStreamType)?;
+    reader.read_exact(&mut buffer).map_err(StreamError::ReadStreamType)?;
 
     StreamType::from_byte(buffer[0]).ok_or(StreamError::UnknownStreamType(buffer[0]))
 }
 
 fn read_stream_length<R: Read>(mut reader: R) -> Result<usize, StreamError> {
     let mut buffer = [0; 4];
-    reader
-        .read_exact(&mut buffer)
-        .map_err(StreamError::ReadStreamLength)?;
+    reader.read_exact(&mut buffer).map_err(StreamError::ReadStreamLength)?;
 
-    u32::from_be_bytes(buffer)
-        .try_into()
-        .map_err(StreamError::InvalidStreamLength)
+    u32::from_be_bytes(buffer).try_into().map_err(StreamError::InvalidStreamLength)
 }

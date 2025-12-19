@@ -32,9 +32,9 @@ Since rce-engine will run as a service under the `rce` user, install it directly
 sudo mkdir -p /home/rce/bin
 
 # Install directly to the service user's directory
-sudo -u rce RCE_ENGINE_INSTALL_DIR=/home/rce/bin curl --proto '=https' --tlsv1.2 -LsSf https://github.com/ToolKitHub/rce-engine/releases/download/v1.2.71/rce-engine-installer.sh | sh
+sudo -u rce curl --proto '=https' --tlsv1.2 -LsSf https://github.com/ToolKitHub/rce-engine/releases/download/v1.2.71/rce-engine-installer.sh | sh
 
-# Ensure correct permissions
+# Set execute permissions
 sudo chmod +rx /home/rce/bin/rce-engine
 ```
 
